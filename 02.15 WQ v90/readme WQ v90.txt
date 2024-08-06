@@ -38,3 +38,5 @@ Refactored. All user-defined options in getParameters_v*.m.
 Animation script automatically uses correct axes limits.
 ------------------------------------------------------------------------
 
+Monday 2024 August 06. Published to GitHub.
+------------------------------------------------------------------------
