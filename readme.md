@@ -11,7 +11,7 @@ Title: Rolling with Planar Parametric Curves for Real-time Robot Locomotion Algo
 
 © 2024 IEEE. Personal use of this material is permitted. Permission from IEEE must be obtained for all other uses, in any current or future media, including reprinting/republishing this material for advertising or promotional purposes, creating new collective works, for resale or redistribution to servers or lists, or reuse of any copyrighted component of this work in other works.
 
-How to Cite This Work  
+### How to Cite This Work  
 If you found this work helpful and would like to cite it, please use the following format:
 
 BibTeX:  
