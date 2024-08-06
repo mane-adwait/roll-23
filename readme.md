@@ -15,6 +15,7 @@ Title: Rolling with Planar Parametric Curves for Real-time Robot Locomotion Algo
 If you found this work helpful and would like to cite it, please use the following format:
 
 BibTeX:  
+<pre>
 @inproceedings{ManHub24Rolling,
   title={Rolling with Planar Parametric Curves for Real-time Robot Locomotion Algorithms},
   author={Mane, Adwait and Hubicki, Christian},
@@ -23,6 +24,7 @@ BibTeX:
   year={2024},
   organization={IEEE}
 }
+</pre>
 
 IEEE format:  
 Mane, A., & Hubicki, C. (2024). Rolling with Planar Parametric Curves for Real-time Robot Locomotion Algorithms. In 2024 International Conference on Robotics and Automation (ICRA) (in press). IEEE.
