@@ -1,0 +1,5 @@
+    par.p_start = -4.5 ; 
+    par.t_end = 20 ;
+
+
+u = 1.2; % N*m.
