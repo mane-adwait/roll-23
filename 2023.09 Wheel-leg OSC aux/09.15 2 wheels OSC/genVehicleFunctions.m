@@ -1,7 +1,5 @@
 % genFunctions.m
-clc
-clear
-close all
+clc; clear; close all
 
 mkdir('auto')
 addpath(genpath( 'auto' ) );
