@@ -31,7 +31,7 @@ params = getVehicleParams();
 % To enable the two front wheels to roll, we add 4 auxiliary coordinates.
 
 DOF = 6+4; % Change the variable name to nq. DOF is incorrect.
-Nact = 4;
+Nact = 4; % Number of actuators.
 
 slope_angle = 0; %-pi/4;
 r_slope = [cos(slope_angle); sin(slope_angle)];
