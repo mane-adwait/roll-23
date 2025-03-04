@@ -14,7 +14,13 @@ params = getVehicleParams();
 % q6: front wheel A joint angle.    q7: front wheel B joint angle.
 % q8: back hip joint angle.     q9: back knee joint angle.
 % q10: back wheel A joint angle.    q11: back wheel B joint angle.
-% The system has 11 DOFs.
+
+% For each rolling constraint, there are two auxiliary coordinates, phi and
+% p.
+% The constrained wheel-leg UGV model published in ICRA 2024 has two
+% rolling wheels, front wheel A and back wheel B.
+% Therefore this model has DOF = 15.
+
 DOF = 15; % DOF = 11;
 Nact = 6;
 
