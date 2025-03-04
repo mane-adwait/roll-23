@@ -73,25 +73,25 @@ r_j(1:2,ij) = r_j(:,ij-2) - params.L3b*[cos(t_j(1,ij-2));sin(t_j(1,ij-2))]; % Eu
 t_j(1,ij) = t_j(1,ij-2)+q7; % Planar rotation
 
 
-% Back leg joint (6)
-ij = ij+1;
-r_j(1:2,ij) = r_j(:,1) - params.L1b*[cos(t_j(1,1));sin(t_j(1,1))]; % Euclidean vector
-t_j(1,ij) = t_j(1,1)+q8; % Planar rotation
-
-% Back knee joint (7)
-ij = ij+1;
-r_j(1:2,ij) = r_j(:,ij-1) + params.L6*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))]; % Euclidean vector
-t_j(1,ij) = t_j(1,ij-1)+q9; % Planar rotation
-
-% Back wheel joint A (8)
-ij = ij+1;
-r_j(1:2,ij) = r_j(:,ij-1) + params.L7a*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))]; % Euclidean vector
-t_j(1,ij) = t_j(1,ij-1)+q10; % Planar rotation
-
-% Back wheel joint B (9)
-ij = ij+1;
-r_j(1:2,ij) = r_j(:,ij-2) - params.L7b*[cos(t_j(1,ij-2));sin(t_j(1,ij-2))]; % Euclidean vector
-t_j(1,ij) = t_j(1,ij-2)+q11; % Planar rotation
+% % Back leg joint (6)
+% ij = ij+1;
+% r_j(1:2,ij) = r_j(:,1) - params.L1b*[cos(t_j(1,1));sin(t_j(1,1))]; % Euclidean vector
+% t_j(1,ij) = t_j(1,1)+q8; % Planar rotation
+% 
+% % Back knee joint (7)
+% ij = ij+1;
+% r_j(1:2,ij) = r_j(:,ij-1) + params.L6*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))]; % Euclidean vector
+% t_j(1,ij) = t_j(1,ij-1)+q9; % Planar rotation
+% 
+% % Back wheel joint A (8)
+% ij = ij+1;
+% r_j(1:2,ij) = r_j(:,ij-1) + params.L7a*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))]; % Euclidean vector
+% t_j(1,ij) = t_j(1,ij-1)+q10; % Planar rotation
+% 
+% % Back wheel joint B (9)
+% ij = ij+1;
+% r_j(1:2,ij) = r_j(:,ij-2) - params.L7b*[cos(t_j(1,ij-2));sin(t_j(1,ij-2))]; % Euclidean vector
+% t_j(1,ij) = t_j(1,ij-2)+q11; % Planar rotation
 
 % Center Points
 
@@ -117,21 +117,21 @@ ij = ij+1;
 r_c(1:2,ij) = r_j(:,ij-2) - params.L3b*[cos(t_j(1,ij-2));sin(t_j(1,ij-2))];
 
 
-% Back thigh center (6)
-ij = ij+1;
-r_c(1:2,ij) = r_j(:,6) + params.L6/2*[cos(t_j(1,ij));sin(t_j(1,ij))];
-
-% Back shin center (7)
-ij = ij+1;
-r_c(1:2,ij) = r_j(:,ij);
-
-% Back A center (8)
-ij = ij+1;
-r_c(1:2,ij) = r_j(:,ij-1) + params.L7a*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))];
-
-% Back B center (9)
-ij = ij+1;
-r_c(1:2,ij) = r_j(:,ij-2) - params.L7b*[cos(t_j(1,ij-2));sin(t_j(1,ij-2))];
+% % Back thigh center (6)
+% ij = ij+1;
+% r_c(1:2,ij) = r_j(:,6) + params.L6/2*[cos(t_j(1,ij));sin(t_j(1,ij))];
+% 
+% % Back shin center (7)
+% ij = ij+1;
+% r_c(1:2,ij) = r_j(:,ij);
+% 
+% % Back A center (8)
+% ij = ij+1;
+% r_c(1:2,ij) = r_j(:,ij-1) + params.L7a*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))];
+% 
+% % Back B center (9)
+% ij = ij+1;
+% r_c(1:2,ij) = r_j(:,ij-2) - params.L7b*[cos(t_j(1,ij-2));sin(t_j(1,ij-2))];
 
 %% Setup for constraints. Parametric functions for the wheels.
 
