@@ -8,21 +8,29 @@ addpath(genpath( 'auto' ) );
 addpath(genpath( 'Functions' ) );
 
 params = getVehicleParams();
-% The unconstrained wheel-leg UGV has 11 DOFs. 
+
+% The unconstrained wheel-leg UGV has 11 DOFs. Therefore 11 coordinates.
 % q1 to q3: 3 DOFs for the base: x, z, theta.
 % q4: front hip joint angle.    q5: front knee joint angle.
 % q6: front wheel A joint angle.    q7: front wheel B joint angle.
 % q8: back hip joint angle.     q9: back knee joint angle.
 % q10: back wheel A joint angle.    q11: back wheel B joint angle.
 
-% For each rolling constraint, there are two auxiliary coordinates, phi and
-% p.
-% The constrained wheel-leg UGV model published in ICRA 2024 has two
-% rolling wheels, front wheel A and back wheel B.
-% Therefore this model has DOF = 15.
+% Additional coordinates are used when we add rolling constraints.
+% For each rolling constraint, there are two auxiliary coordinates, 
+% phi and p.
+% In the constrained wheel-leg UGV model published in ICRA 2024, only two
+% of the four wheels have rolling constraints, front wheel A and back wheel B. 
+% Therefore this model has DOF = 11 + 4 = 15.
 
-DOF = 15; % DOF = 11;
-Nact = 6;
+% Mane, A., & Hubicki, C. (2024). Rolling with Planar Parametric Curves for 
+% Real-time Robot Locomotion Algorithms. In 2024 International Conference on Robotics and Automation (ICRA) (in press). IEEE.
+% Available at https://github.com/mane-adwait/roll-23
+
+% The Walter Sr. leg model has 
+
+DOF = 6+4; % Change the variable name to nq. DOF is incorrect.
+Nact = 4;
 
 slope_angle = 0; %-pi/4;
 r_slope = [cos(slope_angle); sin(slope_angle)];
