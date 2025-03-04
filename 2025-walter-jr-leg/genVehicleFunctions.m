@@ -8,6 +8,7 @@ addpath(genpath( 'auto' ) );
 addpath(genpath( 'Functions' ) );
 
 params = getVehicleParams();
+% The unconstrained system has 11 DOFs.
 DOF = 15; % DOF = 11;
 Nact = 6;
 
