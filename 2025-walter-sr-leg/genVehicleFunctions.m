@@ -27,7 +27,8 @@ params = getVehicleParams();
 % Real-time Robot Locomotion Algorithms. In 2024 International Conference on Robotics and Automation (ICRA) (in press). IEEE.
 % Available at https://github.com/mane-adwait/roll-23
 
-% The Walter Sr. leg model has 
+% The unconstrained Walter Sr. leg model has 6 DOFs.
+% To enable the two front wheels to roll, we add 4 auxiliary coordinates.
 
 DOF = 6+4; % Change the variable name to nq. DOF is incorrect.
 Nact = 4;
@@ -157,7 +158,10 @@ r_c(1:2,ij) = r_j(:,ij-2) - params.L3b*[cos(t_j(1,ij-2));sin(t_j(1,ij-2))];
 %% Setup for constraints. Parametric functions for the wheels.
 
 % ------------- fwA
-phi = q(12) ;   dphi = diff(q(12)) ;    theta = t_j(1,4) ;
+% Wheel-leg UGV:
+% phi = q(12) ;   dphi = diff(q(12)) ;    theta = t_j(1,4) ;
+% Walter Sr. leg:
+phi = q(7) ;   dphi = diff(q(7)) ;    theta = t_j(1,4) ;
 
 % wheel_radius = 0.75 ; 
 alpha_wheel = params.wheel_radius* [cos(phi); sin(phi)] ; % Parametric function of a circle.
@@ -172,10 +176,28 @@ T_wheel = simplify( 1/norm_d_alpha_wheel_dphi * d_alpha_wheel_dphi ) ; % Tangent
 % d_s_wheel_dt = fulldiff(s_wheel, q_char) 
 d_s_wheel_dt = simplify( norm_d_alpha_wheel_dphi * dphi ) ;
 
-% ------------- bwB
-phi_bwB = q(14) ;   
-dphi_bwB = diff(q(14)) ;    
-theta_bwB = t_j(1,9) ;
+% % ------------- bwB of Wheel-leg UGV.
+% phi_bwB = q(14) ;   
+% dphi_bwB = diff(q(14)) ;    
+% theta_bwB = t_j(1,9) ;
+% 
+% alpha_bwB = params.wheel_radius* [cos(phi_bwB); sin(phi_bwB)] ; % Parametric function of a circle.
+% d_alpha_dphi_bwB = diff(alpha_bwB, phi_bwB) ;
+% 
+% % Calculate the norm explicitly because the 'norm' function introduces abs(p), which can be problematic.
+% norm_d_alpha_dphi_bwB = sqrt(d_alpha_dphi_bwB(1,1)^2 + d_alpha_dphi_bwB(2,1)^2) ;
+% norm_d_alpha_dphi_bwB = expand(norm_d_alpha_dphi_bwB) ;
+% 
+% T_bwB = simplify( 1/norm_d_alpha_dphi_bwB * d_alpha_dphi_bwB ) ; % Tangent vector.
+% % s_wheel = int(norm_d_alpha_wheel_dphi, phi, 0, phi)  
+% % d_s_wheel_dt = fulldiff(s_wheel, q_char) 
+% % Time-derivative of arc-length using the chain rule.
+% d_s_bwB_dt = simplify( norm_d_alpha_dphi_bwB * dphi_bwB ) ;
+
+% ------------- fwB of Walter Sr. leg.
+phi_bwB = q(9) ;   
+dphi_bwB = diff(q(9)) ;    
+theta_bwB = t_j(1,5) ;
 
 alpha_bwB = params.wheel_radius* [cos(phi_bwB); sin(phi_bwB)] ; % Parametric function of a circle.
 d_alpha_dphi_bwB = diff(alpha_bwB, phi_bwB) ;
