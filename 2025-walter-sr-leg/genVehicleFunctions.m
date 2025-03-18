@@ -21,19 +21,19 @@ params = getVehicleParams();
 % phi and p.
 % In the constrained wheel-leg UGV model published in ICRA 2024, only two
 % of the four wheels have rolling constraints, front wheel A and back wheel B. 
-% Therefore this model has DOF = 11 + 4 = 15.
+% Therefore this model has nq = 11 + 4 = 15.
 
 % Mane, A., & Hubicki, C. (2024). Rolling with Planar Parametric Curves for 
 % Real-time Robot Locomotion Algorithms. In 2024 International Conference on Robotics and Automation (ICRA) (in press). IEEE.
 % Available at https://github.com/mane-adwait/roll-23
 
 % The unconstrained Walter Sr. leg model has 6 DOFs.
-% To enable the front wheel A to roll, we add 2 auxiliary coordinates.
-% To enable the two front wheels to roll, we add 4 auxiliary coordinates.
+% To enable only front wheel A to roll, we add 2 auxiliary coordinates.
+% To enable both front wheels to roll, we add 4 auxiliary coordinates.
 
 DOF_unc = 6; % Degrees of freedom in the unconstrained system.
 DOF = 6+4; % Change the variable name to nq. DOF is incorrect.
-Nact = 4; % Number of actuators.
+Nact = 2; % Number of actuators.
 
 slope_angle = 0; %-pi/4;
 r_slope = [cos(slope_angle); sin(slope_angle)];
@@ -48,7 +48,7 @@ syms t
 % Not sure if/how the symbolic arrays q, q_, dq_, ddq_ are used.
 
 
-% Create symbolic functions 
+% Create symbolic functions q1(t), q2(t), ... 
 for iter = 1:DOF 
     syms(['q' num2str(iter) '(t)'])
 end
@@ -196,29 +196,32 @@ d_s_wheel_dt = simplify( norm_d_alpha_wheel_dphi * dphi ) ;
 % % Time-derivative of arc-length using the chain rule.
 % d_s_bwB_dt = simplify( norm_d_alpha_dphi_bwB * dphi_bwB ) ;
 
-% ------------- fwB of Walter Sr. leg.
-phi_bwB = q(9) ;   
-dphi_bwB = diff(q(9)) ;    
-theta_bwB = t_j(1,5) ;
-
-alpha_bwB = params.wheel_radius* [cos(phi_bwB); sin(phi_bwB)] ; % Parametric function of a circle.
-d_alpha_dphi_bwB = diff(alpha_bwB, phi_bwB) ;
-
-% Calculate the norm explicitly because the 'norm' function introduces abs(p), which can be problematic.
-norm_d_alpha_dphi_bwB = sqrt(d_alpha_dphi_bwB(1,1)^2 + d_alpha_dphi_bwB(2,1)^2) ;
-norm_d_alpha_dphi_bwB = expand(norm_d_alpha_dphi_bwB) ;
-
-T_bwB = simplify( 1/norm_d_alpha_dphi_bwB * d_alpha_dphi_bwB ) ; % Tangent vector.
-% s_wheel = int(norm_d_alpha_wheel_dphi, phi, 0, phi)  
-% d_s_wheel_dt = fulldiff(s_wheel, q_char) 
-% Time-derivative of arc-length using the chain rule.
-d_s_bwB_dt = simplify( norm_d_alpha_dphi_bwB * dphi_bwB ) ;
+% % ------------- fwB of Walter Sr. leg.
+% phi_bwB = q(9) ;   
+% dphi_bwB = diff(q(9)) ;    
+% theta_bwB = t_j(1,5) ;
+% 
+% alpha_bwB = params.wheel_radius* [cos(phi_bwB); sin(phi_bwB)] ; % Parametric function of a circle.
+% d_alpha_dphi_bwB = diff(alpha_bwB, phi_bwB) ;
+% 
+% % Calculate the norm explicitly because the 'norm' function introduces abs(p), which can be problematic.
+% norm_d_alpha_dphi_bwB = sqrt(d_alpha_dphi_bwB(1,1)^2 + d_alpha_dphi_bwB(2,1)^2) ;
+% norm_d_alpha_dphi_bwB = expand(norm_d_alpha_dphi_bwB) ;
+% 
+% T_bwB = simplify( 1/norm_d_alpha_dphi_bwB * d_alpha_dphi_bwB ) ; % Tangent vector.
+% % s_wheel = int(norm_d_alpha_wheel_dphi, phi, 0, phi)  
+% % d_s_wheel_dt = fulldiff(s_wheel, q_char) 
+% % Time-derivative of arc-length using the chain rule.
+% d_s_bwB_dt = simplify( norm_d_alpha_dphi_bwB * dphi_bwB ) ;
 
 
 %% Setup for constraints. Parametric functions for the terrain.
 
 % ------------- fwA contact point
-p = q(13) ;     dp = diff(q(13)) ;
+% Wheel-leg UGV:
+% p = q(13) ;     dp = diff(q(13)) ;
+% Walter Sr. leg:
+p = q(8) ;     dp = diff(q(8)) ;
 
 % alpha_terr = [p; -0.4142] ; % Parametric function of a line.
 % alpha_terr = params.terrain_radius * [cos(p); sin(p)] ; % Parametric function of a circle.
@@ -237,20 +240,20 @@ N_unit_terr = N_terr / norm_N_terr ;
 % s_terr = int(norm_d_alpha_terr_dp, p, 0, p) ; % Arc-length.
 d_s_terr_dt = norm_d_alpha_terr_dp * dp ;
 
-% ------------- bwB contact point
-p_bwB = q(15) ;     dp_bwB = diff(q(15)) ;
-
-alpha_t_bwB = terrain_hill(p_bwB) ; % [p_bwB; sin(p_bwB)] ; % Parametric function of a sinusoid.
-d_alpha_t_dp_bwB = diff(alpha_t_bwB, p_bwB) ;
-
-% Calculate the norm explicitly because the 'norm' function introduces abs(p), which can be problematic.
-norm_d_alpha_t_dp_bwB = sqrt(d_alpha_t_dp_bwB(1,1)^2 + d_alpha_t_dp_bwB(2,1)^2) ;
-norm_d_alpha_t_dp_bwB = expand(norm_d_alpha_t_dp_bwB) ;
-
-T_t_bwB = simplify( 1/norm_d_alpha_t_dp_bwB * d_alpha_t_dp_bwB ) ; % Tangent vector.
-% N_t_bwB = diff(T_t_bwB, p_bwB) ; % Normal vector.
-
-d_s_t_bwB_dt = norm_d_alpha_t_dp_bwB * dp_bwB ;
+% % ------------- bwB contact point
+% p_bwB = q(15) ;     dp_bwB = diff(q(15)) ;
+% 
+% alpha_t_bwB = terrain_hill(p_bwB) ; % [p_bwB; sin(p_bwB)] ; % Parametric function of a sinusoid.
+% d_alpha_t_dp_bwB = diff(alpha_t_bwB, p_bwB) ;
+% 
+% % Calculate the norm explicitly because the 'norm' function introduces abs(p), which can be problematic.
+% norm_d_alpha_t_dp_bwB = sqrt(d_alpha_t_dp_bwB(1,1)^2 + d_alpha_t_dp_bwB(2,1)^2) ;
+% norm_d_alpha_t_dp_bwB = expand(norm_d_alpha_t_dp_bwB) ;
+% 
+% T_t_bwB = simplify( 1/norm_d_alpha_t_dp_bwB * d_alpha_t_dp_bwB ) ; % Tangent vector.
+% % N_t_bwB = diff(T_t_bwB, p_bwB) ; % Normal vector.
+% 
+% d_s_t_bwB_dt = norm_d_alpha_t_dp_bwB * dp_bwB ;
 
 
 %% Substitutions. 
@@ -427,7 +430,7 @@ end
 
 
 
-    
+
 CoM = sum(([1;1]*m_vec).*r_c,2)/sum(m_vec);
 C_term = -subs(E_L_eq,ddq_,zeros(size(ddq_)));
 
