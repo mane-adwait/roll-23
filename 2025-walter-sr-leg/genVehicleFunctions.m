@@ -266,10 +266,10 @@ alpha_terr_sub = subs(alpha_terr, q13(t), q_13) ;
 T_terr_sub = subs(T_terr, q13(t), q_13) ;
 N_unit_terr_sub = subs(N_unit_terr, q13(t), q_13) ;
 
-alpha_bwB_sub = subs(alpha_bwB, q14(t), q_14) ;
-T_bwB_sub = subs(T_bwB, q14(t), q_14) ;
-alpha_t_bwB_sub = subs(alpha_t_bwB, q15(t), q_15) ;
-T_t_bwB_sub = subs(T_t_bwB, q15(t), q_15) ;
+% alpha_bwB_sub = subs(alpha_bwB, q14(t), q_14) ;
+% T_bwB_sub = subs(T_bwB, q14(t), q_14) ;
+% alpha_t_bwB_sub = subs(alpha_t_bwB, q15(t), q_15) ;
+% T_t_bwB_sub = subs(T_t_bwB, q15(t), q_15) ;
 
 
 %% Constraints using auxiliary coordinates.
