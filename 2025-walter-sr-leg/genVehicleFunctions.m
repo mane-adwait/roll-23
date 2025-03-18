@@ -28,8 +28,10 @@ params = getVehicleParams();
 % Available at https://github.com/mane-adwait/roll-23
 
 % The unconstrained Walter Sr. leg model has 6 DOFs.
+% To enable the front wheel A to roll, we add 2 auxiliary coordinates.
 % To enable the two front wheels to roll, we add 4 auxiliary coordinates.
 
+DOF_unc = 6; % Degrees of freedom in the unconstrained system.
 DOF = 6+4; % Change the variable name to nq. DOF is incorrect.
 Nact = 4; % Number of actuators.
 
