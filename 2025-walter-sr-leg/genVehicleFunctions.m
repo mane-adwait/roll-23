@@ -9,6 +9,18 @@ addpath(genpath( 'Functions' ) );
 
 params = getVehicleParams();
 
+%% Explanation of coordinates 
+
+% --------- Walter Sr. leg ---------
+
+% DOF_unc: degrees of freedom in the unconstrained system.
+% nq: number of coordinates in the constrained system.
+% DOF_unc = 6.
+% We add 2 auxiliary coordinates for each rolling wheel.
+% nq = 6 + 2 = 8 for rolling constraints applied to front wheel A only.
+
+% --------- ICRA 2024 wheel-leg UGV model ---------
+
 % The unconstrained wheel-leg UGV has 11 DOFs. Therefore 11 coordinates.
 % q1 to q3: 3 DOFs for the base: x, z, theta.
 % q4: front hip joint angle.    q5: front knee joint angle.
@@ -27,9 +39,7 @@ params = getVehicleParams();
 % Real-time Robot Locomotion Algorithms. In 2024 International Conference on Robotics and Automation (ICRA) (in press). IEEE.
 % Available at https://github.com/mane-adwait/roll-23
 
-% The unconstrained Walter Sr. leg model has 6 DOFs.
-% To enable only front wheel A to roll, we add 2 auxiliary coordinates.
-% To enable both front wheels to roll, we add 4 auxiliary coordinates.
+%%
 
 DOF_unc = 6; % Degrees of freedom in the unconstrained system.
 DOF = 6+4; % Change the variable name to nq. DOF is incorrect.
