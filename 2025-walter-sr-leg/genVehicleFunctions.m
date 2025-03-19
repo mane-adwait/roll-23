@@ -225,8 +225,8 @@ p = q(8) ;     dp = diff(q(8)) ;
 
 % alpha_terr = [p; -0.4142] ; % Parametric function of a line.
 % alpha_terr = params.terrain_radius * [cos(p); sin(p)] ; % Parametric function of a circle.
-% alpha_terr = [p; sin(p)] ; % Parametric function of a sinusoid.
-alpha_terr = terrain_hill(p) ;
+alpha_terr = [p; sin(p)] ; % Parametric function of a sinusoid.
+% alpha_terr = terrain_hill(p) ;
 d_alpha_terr_dp = diff(alpha_terr, p) ;
 
 % Calculate the norm explicitly because the 'norm' function introduces abs(p), which can be problematic.
