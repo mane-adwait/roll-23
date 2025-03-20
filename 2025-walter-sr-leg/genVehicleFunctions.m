@@ -270,11 +270,17 @@ d_s_terr_dt = norm_d_alpha_terr_dp * dp ;
 % Cannot use matlabFunction with symbolic functions. Need symbolic
 % variables.
 
-alpha_wheel_sub = subs(alpha_wheel, q12(t), q_12) ;
-T_wheel_sub = subs(T_wheel, q12(t), q_12) ;
-alpha_terr_sub = subs(alpha_terr, q13(t), q_13) ;
-T_terr_sub = subs(T_terr, q13(t), q_13) ;
-N_unit_terr_sub = subs(N_unit_terr, q13(t), q_13) ;
+% alpha_wheel_sub = subs(alpha_wheel, q12(t), q_12) ;
+% T_wheel_sub = subs(T_wheel, q12(t), q_12) ;
+% alpha_terr_sub = subs(alpha_terr, q13(t), q_13) ;
+% T_terr_sub = subs(T_terr, q13(t), q_13) ;
+% N_unit_terr_sub = subs(N_unit_terr, q13(t), q_13) ;
+
+alpha_wheel_sub = subs(alpha_wheel, q7(t), q_7) ;
+T_wheel_sub = subs(T_wheel, q7(t), q_7) ;
+alpha_terr_sub = subs(alpha_terr, q8(t), q_8) ;
+T_terr_sub = subs(T_terr, q8(t), q_8) ;
+N_unit_terr_sub = subs(N_unit_terr, q8(t), q_8) ;
 
 % alpha_bwB_sub = subs(alpha_bwB, q14(t), q_14) ;
 % T_bwB_sub = subs(T_bwB, q14(t), q_14) ;
