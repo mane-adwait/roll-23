@@ -317,13 +317,14 @@ dh1_dt = d_s_wheel_dt - d_s_terr_dt ;      dh1_dt = expand(dh1_dt) ;
 % 
 % % ----------------------------------------------------
 
-h = [h1; h2; h3; h13; h14; h15] ;
+% h = [h1; h2; h3; h13; h14; h15] ;
+h = [h1; h2; h3] ;
 
 dh_dt = diff(h, t) ; dh_dt = simplify(dh_dt) ;
 
 % Replace NaN with the velocity level constraints.
 dh_dt(1) = dh1_dt ; 
-dh_dt(5) = dh13_dt ; 
+% dh_dt(5) = dh13_dt ; 
 
 
 d2h_dt2 = diff(dh_dt, t) ; d2h_dt2 = simplify(d2h_dt2) ;
@@ -336,25 +337,26 @@ Nlam = numel(con_funcs);
 syms('lam_',[Nlam 1])
 
 %% Build Inertias
+% Walter Sr. leg has 5 bodies.
 m_vec(1,1) = params.m1;
 m_vec(1,2) = params.m2;
 m_vec(1,3) = params.m3;
 m_vec(1,4) = params.m4;
 m_vec(1,5) = params.m5;
-m_vec(1,6) = params.m6;
-m_vec(1,7) = params.m7;
-m_vec(1,8) = params.m8;
-m_vec(1,9) = params.m9;
+% m_vec(1,6) = params.m6;
+% m_vec(1,7) = params.m7;
+% m_vec(1,8) = params.m8;
+% m_vec(1,9) = params.m9;
 
 I_vec(1,1) = params.I1;
 I_vec(1,2) = params.I2;
 I_vec(1,3) = params.I3;
 I_vec(1,4) = params.I4;
 I_vec(1,5) = params.I5;
-I_vec(1,6) = params.I6;
-I_vec(1,7) = params.I7;
-I_vec(1,8) = params.I8;
-I_vec(1,9) = params.I9;
+% I_vec(1,6) = params.I6;
+% I_vec(1,7) = params.I7;
+% I_vec(1,8) = params.I8;
+% I_vec(1,9) = params.I9;
 
 
 %% Energies
@@ -384,15 +386,17 @@ E_L_eq = dL_ddq_dt-dL_dq;
 %% TASKS
 
 % Task space coordinates
-% x_task = [r_c(1:2,1); t_j(1,1)];
-% x_task = [r_c(1:2,1); t_j(1,1); r_c(2,5); r_c(2,8)];
 
+% ICRA 2024 wheel-leg UGV
 x_task = [r_c(1:2,1); t_j(1,1); t_j(1,2); t_j(1,3); t_j(1,6); t_j(1,7)];
 dxdt_task = diff(x_task,t);
 
 
 
 %% SUBSTITUTIONS
+
+% Remove the time dependence. Substitute symbolic functions with symbolic 
+% variables. This allows us to compute the Jacobian.
 
 % Substitution Loop
 for iter = 1:DOF
