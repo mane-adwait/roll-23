@@ -302,20 +302,21 @@ h3 = simplify(h3) ;
 % fwA. Velocity level constraints
 dh1_dt = d_s_wheel_dt - d_s_terr_dt ;      dh1_dt = expand(dh1_dt) ;
 
-% ----------------------------------------------------
-% bwB. Position level constraints
-h13 = NaN ; % To implement the arc-length constraint at the velocity level.
+% % ----------------------------------------------------
+% % bwB. Position level constraints
+% h13 = NaN ; % To implement the arc-length constraint at the velocity level.
+% 
+% h14 = dot( RM_CCW(theta_bwB)*T_bwB , T_t_bwB ) - 1 ; % Tangent constraint.
+% h14 = simplify (h14) ; % To simplify using trig identities.
+% 
+% h15 = [r_c(1:2,9)] - alpha_t_bwB + RM_CCW(theta_bwB)*alpha_bwB ; % Non-penetration constraint.
+% h15 = simplify(h15) ;
+% 
+% % bwB. Velocity level constraints
+% dh13_dt = d_s_bwB_dt - d_s_t_bwB_dt ;      dh13_dt = expand(dh13_dt) ;
+% 
+% % ----------------------------------------------------
 
-h14 = dot( RM_CCW(theta_bwB)*T_bwB , T_t_bwB ) - 1 ; % Tangent constraint.
-h14 = simplify (h14) ; % To simplify using trig identities.
-
-h15 = [r_c(1:2,9)] - alpha_t_bwB + RM_CCW(theta_bwB)*alpha_bwB ; % Non-penetration constraint.
-h15 = simplify(h15) ;
-
-% bwB. Velocity level constraints
-dh13_dt = d_s_bwB_dt - d_s_t_bwB_dt ;      dh13_dt = expand(dh13_dt) ;
-
-% ----------------------------------------------------
 h = [h1; h2; h3; h13; h14; h15] ;
 
 dh_dt = diff(h, t) ; dh_dt = simplify(dh_dt) ;
