@@ -392,7 +392,7 @@ E_L_eq = dL_ddq_dt-dL_dq;
 % dxdt_task = diff(x_task,t);
 
 % Base position only.
-x_task = [r_c(1:2,1); t_j(1,1); t_j(1,2); t_j(1,3); t_j(1,6); t_j(1,7)];
+x_task = [r_c(1:2,1)];
 dxdt_task = diff(x_task,t);
 
 
@@ -465,70 +465,48 @@ A = jacobian(con_funcs,dq_);
 
 f_con_term = A.'*lam_;
 
-% f_noact = -subs(E_L_eq,ddq_,zeros(size(ddq_)));
-B = [...
-     0, 0, 0, 0, 0, 0; % x
-     0, 0, 0, 0, 0, 0; % z
-    -1, 0, 0,-1, 0, 0; % t1
-     1,-1, 0, 0, 0, 0; % t2
-     0, 1,-1, 0, 0, 0; % t3
-     0, 0, 1, 0, 0, 0; % t4
-     0, 0, 0, 0, 0, 0; % t5
-     0, 0, 0, 1,-1, 0; % t6
-     0, 0, 0, 0, 1,-1; % t7
-     0, 0, 0, 0, 0, 0; % t8
-     0, 0, 0, 0, 0, 1; % t9
-     0, 0, 0, 0, 0, 0; % phi
-     0, 0, 0, 0, 0, 0; % p
-     0, 0, 0, 0, 0, 0; % phi_bwB
-     0, 0, 0, 0, 0, 0 ... % p_bwB
-     ];
+% size(B) = n_q X n_u
+% B = [...
+%      0, 0, 0, 0, 0, 0; % x
+%      0, 0, 0, 0, 0, 0; % z
+%     -1, 0, 0,-1, 0, 0; % t1
+%      1,-1, 0, 0, 0, 0; % t2
+%      0, 1,-1, 0, 0, 0; % t3
+%      0, 0, 1, 0, 0, 0; % t4
+%      0, 0, 0, 0, 0, 0; % t5
+%      0, 0, 0, 1,-1, 0; % t6
+%      0, 0, 0, 0, 1,-1; % t7
+%      0, 0, 0, 0, 0, 0; % t8
+%      0, 0, 0, 0, 0, 1; % t9
+%      0, 0, 0, 0, 0, 0; % phi
+%      0, 0, 0, 0, 0, 0; % p
+%      0, 0, 0, 0, 0, 0; % phi_bwB
+%      0, 0, 0, 0, 0, 0 ... % p_bwB
+%      ];
+
 
 % B = [...
-%      0; % x
-%      0; % z
-%      0; % t1
-%      0; % t2
-%      0; % t3
-%      1; % t4
-%      0; % t5
-%      0; % t6
-%      0; % t7
-%      0; % t8
-%      1; % t9
-%      0; % phi
-%      0; % p
-%      0; % phi_bwB
-%      0 ... % p_bwB
-%      ] ; 
+%      0, 0, 0, 0, 0, 0; % x
+%      0, 0, 0, 0, 0, 0; % z
+%     -1, 0, 0,-1, 0, 0; % t1
+%      1,-1, 0, 0, 0, 0; % t2
+%      0, 1,-1, 0, 0, 0; % t3
+%      0, 0, 1, 0, 0, 0; % t4
+%      0, 0, 0, 0, 0, 0; % t5
+%      0, 0, 0, 1,-1, 0; % t6
+%      0, 0, 0, 0, 0, 0; % phi
+%      0, 0, 0, 0, 0, 0 ... % p
+%      ];
 
-% B = [...
-%      0, 0; % x
-%      0, 0; % z
-%      0, 0; % t1
-%      0, 0; % t2
-%      0, 0; % t3
-%      1, 0; % t4 fwA
-%      0, 0; % t5
-%      0, 0; % t6
-%      0, 0; % t7
-%      0, 0; % t8
-%      0, 1; % t9 bwB
-%      0, 0; % phi
-%      0, 0; % p
-%      0, 0; % phi_bwB
-%      0, 0 ... % p_bwB
-%      ] ; 
+% Wnc = B*u_;
 
-
-Wnc = B*u_;
-% J_con = jacobian(con_funcs,ddq_)
+Wnc = zeros(DOF,1);
 
 % Add actuation
-% f = f_noact+Wnc;
-f = C_term+Wnc;
+f = C_term+Wnc; % Not sure where this is being used.
 
-E_L_aug = E_L_eq - f_con_term - Wnc;
+% E_L_aug = E_L_eq - f_con_term - Wnc;
+E_L_aug = E_L_eq - f_con_term - Wnc; % Passive simulation.
 ddq_aug = [ddq_; lam_];
 
 M_aug = jacobian([E_L_aug; d_con_funcs],ddq_aug);
