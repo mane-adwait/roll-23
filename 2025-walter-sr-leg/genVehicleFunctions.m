@@ -387,10 +387,13 @@ E_L_eq = dL_ddq_dt-dL_dq;
 
 % Task space coordinates
 
-% ICRA 2024 wheel-leg UGV
+% % ICRA 2024 wheel-leg UGV
+% x_task = [r_c(1:2,1); t_j(1,1); t_j(1,2); t_j(1,3); t_j(1,6); t_j(1,7)];
+% dxdt_task = diff(x_task,t);
+
+% Base position only.
 x_task = [r_c(1:2,1); t_j(1,1); t_j(1,2); t_j(1,3); t_j(1,6); t_j(1,7)];
 dxdt_task = diff(x_task,t);
-
 
 
 %% SUBSTITUTIONS
