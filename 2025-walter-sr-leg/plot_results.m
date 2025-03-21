@@ -5,21 +5,32 @@
 
 load("data.mat")
 
-% fwA: r_c(:,4).
-% t_anim -> q_anim -> r_c_anim
+% We want to plot the position of fwA vs time.
+
+% To ensure that we index correctly, we need to know what each dimension in
+% t_anim, q_anim, and the output of rc_func corresponds to.
 % t is a column vector and time is the vertical axis in y and q.
 
-% Pre-allocate r_c_anim(n_spatial, n_q, n_time)
+% Create a multi-dimensional matrix rc_anim to store the positions of the
+% centers of all the bodies.
+% Pre-allocate rc_anim(n_spatial, n_bodies, n_time)
 % n_spatial: no. of spatial coordinates. n_spatial = 2 since we have x and z.
 % n_q: no. of bodies.
 % n_time: no. of time samples.
 rc_anim = nan(2,5,numel(t_anim)); 
 
+% rc_func: q_anim -> rc_anim.
 for k = 1:numel(t_anim)
     rc_anim(:,:,k) = rc_func(q_anim(k,:).');
 end
 
-return
+
+
+
+
+
+% fwA: r_c(:,4).
+
 
 %% Generate plots.
 
