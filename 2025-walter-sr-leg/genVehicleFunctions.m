@@ -43,7 +43,7 @@ params = getVehicleParams();
 
 DOF_unc = 6; % Degrees of freedom in the unconstrained system.
 DOF = 6+4; % Change the variable name to nq. DOF is incorrect.
-Nact = 2; % Number of actuators.
+Nact = 3; % Number of actuators.
 
 slope_angle = 0; %-pi/4;
 r_slope = [cos(slope_angle); sin(slope_angle)];
@@ -576,16 +576,22 @@ matlabFunction(A_eq_con,'vars',{q_,dq_},'file',['auto' filesep 'A_eq_func']);
 matlabFunction(b_eq_con,'vars',{q_,dq_},'file',['auto' filesep 'b_eq_func']);
 matlabFunction(J_opt,'vars',{z_opt,q_,dq_,ddx_des},'file',['auto' filesep 'J_obj_func']);
 
-matlabFunction(alpha_wheel_sub,'vars',{q_12},'file',['auto' filesep 'alpha_wheel_func']);
-matlabFunction(T_wheel_sub,'vars',{q_12},'file',['auto' filesep 'T_wheel_func']);
-matlabFunction(alpha_terr_sub,'vars',{q_13},'file',['auto' filesep 'alpha_terr_func']);
-matlabFunction(T_terr_sub,'vars',{q_13},'file',['auto' filesep 'T_terr_func']);
-matlabFunction(N_unit_terr_sub,'vars',{q_13},'file',['auto' filesep 'N_unit_terr_func']);
+matlabFunction(alpha_wheel_sub,'vars',{q_7},'file',['auto' filesep 'alpha_wheel_func']);
+matlabFunction(T_wheel_sub,'vars',{q_7},'file',['auto' filesep 'T_wheel_func']);
+matlabFunction(alpha_terr_sub,'vars',{q_8},'file',['auto' filesep 'alpha_terr_func']);
+matlabFunction(T_terr_sub,'vars',{q_8},'file',['auto' filesep 'T_terr_func']);
+matlabFunction(N_unit_terr_sub,'vars',{q_8},'file',['auto' filesep 'N_unit_terr_func']);
 
-matlabFunction(alpha_bwB_sub,'vars',{q_14},'file',['auto' filesep 'alpha_bwB_func']);
-matlabFunction(T_bwB_sub,'vars',{q_14},'file',['auto' filesep 'T_bwB_func']);
-matlabFunction(alpha_t_bwB_sub,'vars',{q_15},'file',['auto' filesep 'alpha_t_bwB_func']);
-matlabFunction(T_t_bwB_sub,'vars',{q_15},'file',['auto' filesep 'T_t_bwB_func']);
+% matlabFunction(alpha_wheel_sub,'vars',{q_12},'file',['auto' filesep 'alpha_wheel_func']);
+% matlabFunction(T_wheel_sub,'vars',{q_12},'file',['auto' filesep 'T_wheel_func']);
+% matlabFunction(alpha_terr_sub,'vars',{q_13},'file',['auto' filesep 'alpha_terr_func']);
+% matlabFunction(T_terr_sub,'vars',{q_13},'file',['auto' filesep 'T_terr_func']);
+% matlabFunction(N_unit_terr_sub,'vars',{q_13},'file',['auto' filesep 'N_unit_terr_func']);
+% 
+% matlabFunction(alpha_bwB_sub,'vars',{q_14},'file',['auto' filesep 'alpha_bwB_func']);
+% matlabFunction(T_bwB_sub,'vars',{q_14},'file',['auto' filesep 'T_bwB_func']);
+% matlabFunction(alpha_t_bwB_sub,'vars',{q_15},'file',['auto' filesep 'alpha_t_bwB_func']);
+% matlabFunction(T_t_bwB_sub,'vars',{q_15},'file',['auto' filesep 'T_t_bwB_func']);
 
 % matlabFunction(B,'vars',{q_},'file',['auto' filesep 'B_func']);
 
