@@ -3,6 +3,8 @@
 % Dependencies: linspecer.m.
 % Author: Adwait Mane. 2025 March.
 
+close all
+
 load("data.mat")
 
 % We want to plot the position of fwA vs time.
@@ -24,12 +26,22 @@ for k = 1:numel(t_anim)
     rc_anim(:,:,k) = rc_func(q_anim(k,:).');
 end
 
-
-
-
-
-
-% fwA: r_c(:,4).
+%% Debugging
+% size(rc_anim)
+% wheel.x = rc_anim(1,4,:);
+% size(wheel.x)
+% 
+% return
+% 
+% wheel.x = nan(numel(t_anim));
+% wheel.z = nan(numel(t_anim));
+% 
+% % rc_func: q_anim -> rc_anim.
+% for k = 1:numel(t_anim)
+%     rc_anim(:,:,k) = rc_func(q_anim(k,:).');
+%     wheel.x(k) = rc_anim(1,4,k);
+%     wheel.z(k) = rc_anim(2,4,k);
+% end
 
 
 %% Generate plots.
@@ -95,26 +107,35 @@ subplot(draw.m,draw.n,1);
 % command.
 % title(['States (', fileName, ' ', fileVersion, ')'], ...
 %     'Interpreter','latex','FontSize',18);
-title('States', ...
+title('Wheel Position', ...
     'Interpreter','latex','FontSize',18); 
-plot(   t, z(1:2,:), ...
+% fwA: rc_anim(:,4,k).
+plot(   t_anim, squeeze(rc_anim(1,4,:)), ...
     'LineWidth', 1.5); grid on;
-ylabel('rad','Interpreter','latex','FontSize',20);
-legend({    'q1',...
-    'q2',...
-    },'Location','eastoutside',...
-    'Interpreter','latex','FontSize',20);
+% plot(   t_anim, wheel.x, ...
+%     'LineWidth', 1.5); grid on;
+ylabel('x','Interpreter','latex','FontSize',20);
+% legend({    'q1',...
+%     'q2',...
+%     },'Location','eastoutside',...
+%     'Interpreter','latex','FontSize',20);
+
 
 subplot(draw.m,draw.n,2); 
 
-plot(   t, z(3:4,:), ...
+plot(   t_anim, squeeze(rc_anim(2,4,:)), ...
     'LineWidth', 1.5); grid on;
-ylabel('rad/s','Interpreter','latex','FontSize',20);
-legend({    'dq1',...
-    'dq2',...
-    },'Location','eastoutside',...
-    'Interpreter','latex','FontSize',20);
+ylabel('z','Interpreter','latex','FontSize',20);
+% legend({    'dq1',...
+%     'dq2',...
+%     },'Location','eastoutside',...
+%     'Interpreter','latex','FontSize',20);
+ylim([-0.01 0.01])
+
 xlabel('Time (s)', 'Interpreter','latex','FontSize',20);
+
+return
+
 
 %% Plot the control signal in a separate figure.
 
