@@ -5,6 +5,14 @@
 
 load("data.mat")
 
+% fwA: r_c(:,4).
+% Obtain r_c for all values of t.
+% t -> q -> r_c
+
+% t is a column vector and time is the vertical axis in y and q.
+
+
+
 %% Generate plots.
 
 % Create the figure and set the properties:
