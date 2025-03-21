@@ -6,12 +6,20 @@
 load("data.mat")
 
 % fwA: r_c(:,4).
-% Obtain r_c for all values of t.
-% t -> q -> r_c
-
+% t_anim -> q_anim -> r_c_anim
 % t is a column vector and time is the vertical axis in y and q.
 
+% Pre-allocate r_c_anim(n_spatial, n_q, n_time)
+% n_spatial: no. of spatial coordinates. n_spatial = 2 since we have x and z.
+% n_q: no. of bodies.
+% n_time: no. of time samples.
+rc_anim = nan(2,5,numel(t_anim)); 
 
+for k = 1:numel(t_anim)
+    rc_anim(:,:,k) = rc_func(q_anim(k,:).');
+end
+
+return
 
 %% Generate plots.
 
