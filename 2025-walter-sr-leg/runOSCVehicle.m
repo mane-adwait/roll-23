@@ -43,20 +43,26 @@ phi0 = -pi/2 - B_angle ;
 
 phi_bwB_0 = -pi/2 + B_angle ; p_bwB_0 = -p0 ;
 
-q0_phys = [base0(1) base0(2) 0 -pi/4 pi/4 0 0 -3*pi/4 3*pi/4 0 0].' ; % 11 values.
+% q0_phys = [base0(1) base0(2) 0 -pi/4 pi/4 0 0 -3*pi/4 3*pi/4 0 0].' ; % 11 values.
+% % q0 = [q0_phys; phi0; p0] ;
+% q0 = [q0_phys; phi0; p0; phi_bwB_0; p_bwB_0] ;
+
+q0_phys = zeros(6,1);
 % q0 = [q0_phys; phi0; p0] ;
-q0 = [q0_phys; phi0; p0; phi_bwB_0; p_bwB_0] ;
+q0 = [q0_phys; phi0; p0] ;
 
 
 % -----------------------------------------------------------
 
 % q0 = [1 1 0 -pi/4 pi/4 0 0 -3*pi/4 3*pi/4 0 0].';
-dq0 = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0].';
+% dq0 = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0].';
+% dq0 = [0 0 0 0 0 0 0 0].';
+dq0 = zeros(8,1);
 
 % Rearrange into q1; dq1; q2; dq2 ... ordering
 y0 = reshape([q0.';dq0.'],[numel(q0)*2,1]);
 
-sim_time = 7.5; %7.5; %5; % Simulation run time
+sim_time = 1; %7.5; %5; % Simulation run time
 Ts = 0.01; % Sample time (for controller)
 
 % Simple Drive Trajectory
@@ -93,7 +99,8 @@ for t_start = 0:Ts:(sim_time-Ts)
     dq = y0(2:2:end);
     
     % Compute torques (once per Ts)
-    tau = GetTorqueOSC(xdes(t_start),dxdes(t_start),q,dq);
+    % tau = GetTorqueOSC(xdes(t_start),dxdes(t_start),q,dq);
+    tau = zeros(2,1);
     
     % Define inline dynamics function for passing constant torque
     dyn = @(t,y) dynVehicleControl(t,y,tau);
@@ -115,8 +122,8 @@ for t_start = 0:Ts:(sim_time-Ts)
     y0 = y_sim(end,:).';
 end
 
-
 toc
+
 
 %% Animation
 FPS = 20;
@@ -127,6 +134,11 @@ t_anim = (min(t_out):1/FPS/SLOMO:max(t_out)).';
 y_anim = interp1(t_out,y_out,t_anim);
 
 q_anim = y_anim(:,1:2:end);
+
+save("data.mat")
+return
+
+%%
 
 v = VideoWriter('v2024-OSC-testCH-1.mp4','MPEG-4');
 v.Quality = 99;
@@ -170,36 +182,38 @@ plot_terr.HandleVisibility = "off" ;
 
 set(gcf,'color',[1 1 1])
 
+
+
 for iter = 1:numel(t_anim)
-    
+
 %     subplot(2,2,[3 4])
-    
+
     j_coords = rj_func(q_anim(iter,:).');
     c_coords = rc_func(q_anim(iter,:).');
     CoM_coords = CoM_func(q_anim(iter,:).');
     % Rearrangement for easy drawing
     plot_coords = j_coords(:,[9,8,7,6,2,3,4,5]);
-    
+
     cla
     hold on
-    
-    
+
+
     fw_rotA = sum(q_anim(iter,[3,4,5,7]));
     fw_rotB = sum(q_anim(iter,[3,4,5,6]));
-    
+
     bw_rotA = sum(q_anim(iter,[3,8,9,10]));
     bw_rotB = sum(q_anim(iter,[3,8,9,11]));
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     plot(plot_coords(1,:), plot_coords(2,:), 'k-', 'linewidth', 4)
-    
+
 %     plot(c_coords(1,:),c_coords(2,:),'rx')
 %     plot(CoM_coords(1,:), CoM_coords(2,:), 'ro')
-    
+
     % Plot rounded rectangle
     plot(plot_coords(1,:), plot_coords(2,:), 'k-', 'linewidth', 4)
     R = 0.2;
@@ -209,46 +223,46 @@ for iter = 1:numel(t_anim)
     R_pin = 0.08;
     rim_ratio = 0.9;
     R_com = 0.23;
-    
+
     % MAIN BODY
     prect = RoundRectangle(plot_coords(:,4), plot_coords(:,5), R2, 0);
     fill(prect(1,:), prect(2,:), 'k', 'facecolor', color1)
-    
+
     prect = RoundRectangle(plot_coords(:,3), plot_coords(:,4), R, 0);
     fill(prect(1,:), prect(2,:), 'k', 'facecolor', color1)
-    
-    
-    
-    
+
+
+
+
     prect = RoundRectangle(plot_coords(:,5), plot_coords(:,6), R, 0);
     fill(prect(1,:), prect(2,:), 'k', 'facecolor', color1)
-    
-    
+
+
     prect = RoundRectangle(plot_coords(:,1), plot_coords(:,2), R, 0);
     fill(prect(1,:), prect(2,:), 'k', 'facecolor', color1)
 %     prect = RoundRectangle(plot_coords(:,5), plot_coords(:,5), R_pin, 0);
 %     fill(prect(1,:), prect(2,:), 'k', 'facecolor', [0 0 0])
-    
+
     prect = RoundRectangle(plot_coords(:,7), plot_coords(:,8), R, 0);
     fill(prect(1,:), prect(2,:), 'k', 'facecolor', color1)
-    
+
     fill(plot_coords(1,1)+params.L9*wheel_points(1,:),plot_coords(2,1)+params.L9*wheel_points(2,:),'c','facecolor',color2)
     fill(plot_coords(1,1)+params.L9*rim_ratio*wheel_points(1,:),plot_coords(2,1)+params.L9*rim_ratio*wheel_points(2,:),'c','facecolor',color1)
     plot(plot_coords(1,1)+[0 params.L9*cos(bw_rotB)],plot_coords(2,1)+[0 params.L9*sin(bw_rotB)],'k-')
-    
+
     fill(plot_coords(1,2)+params.L8*wheel_points(1,:),plot_coords(2,2)+params.L8*wheel_points(2,:),'c','facecolor',color2)
     fill(plot_coords(1,2)+params.L8*rim_ratio*wheel_points(1,:),plot_coords(2,2)+params.L8*rim_ratio*wheel_points(2,:),'c','facecolor',color1)
     plot(plot_coords(1,2)+[0 params.L8*cos(bw_rotA)],plot_coords(2,2)+[0 params.L8*sin(bw_rotA)],'k-')
-    
+
     fill(plot_coords(1,end-1)+params.L5*wheel_points(1,:),plot_coords(2,end-1)+params.L5*wheel_points(2,:),'g','facecolor',color2)
     fill(plot_coords(1,end-1)+params.L5*rim_ratio*wheel_points(1,:),plot_coords(2,end-1)+params.L5*rim_ratio*wheel_points(2,:),'g','facecolor',color1)
     plot(plot_coords(1,end-1)+[0 params.L5*cos(fw_rotB)],plot_coords(2,end-1)+[0 params.L5*sin(fw_rotB)],'k-')
-    
+
     fill(plot_coords(1,end)+params.L4*wheel_points(1,:),plot_coords(2,end)+params.L4*wheel_points(2,:),'g','facecolor',color2)
     fill(plot_coords(1,end)+params.L4*rim_ratio*wheel_points(1,:),plot_coords(2,end)+params.L4*rim_ratio*wheel_points(2,:),'g','facecolor',color1)
     plot(plot_coords(1,end)+[0 params.L4*cos(fw_rotA)],plot_coords(2,end)+[0 params.L4*sin(fw_rotA)],'k-')
-    
-    
+
+
     prect = RoundRectangle(plot_coords(:,1), plot_coords(:,1), R_pin, 0);
     fill(prect(1,:), prect(2,:), 'k', 'facecolor', [0 0 0])
     prect = RoundRectangle(plot_coords(:,2), plot_coords(:,2), R_pin, 0);
@@ -265,7 +279,7 @@ for iter = 1:numel(t_anim)
     fill(prect(1,:), prect(2,:), 'k', 'facecolor', [0 0 0])
     prect = RoundRectangle(plot_coords(:,8), plot_coords(:,8), R_pin, 0);
     fill(prect(1,:), prect(2,:), 'k', 'facecolor', [0 0 0])
-    
+
 % PLOT COM SYMBOL
 %     prect = RoundRectangle([c_coords(1,1);c_coords(2,1)], [c_coords(1,1);c_coords(2,1)], R_com, 0);
 %     fill(prect(1,:), prect(2,:), 'k', 'facecolor', [1 1 1])
@@ -275,14 +289,14 @@ for iter = 1:numel(t_anim)
 %     com_lr = [R_com*cos(linspace(3*pi/2,2*pi,100)) 0 0; R_com*sin(linspace(3*pi/2,2*pi,100)) 0 R_com];
 %     com_lr = com_lr + [c_coords(1,1); c_coords(2,1)]*[0*com_lr(1,:)+1];
 %     fill(com_lr(1,:), com_lr(2,:), 'k', 'facecolor', [0 0 0],'edgecolor','none')
-    
-    
+
+
     axis off
     hold off
     drawnow
-    
+
     %     pause
-    
+
     frame = getframe(gcf);
     writeVideo(v,frame);
 end
