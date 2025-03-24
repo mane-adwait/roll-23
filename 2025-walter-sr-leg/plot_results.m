@@ -13,22 +13,22 @@ load("data.mat")
 % t_anim, q_anim, and the output of rc_func corresponds to.
 % t is a column vector and time is the vertical axis in y and q.
 
-% Create a multi-dimensional matrix rc_anim to store the positions of the
+% Create a multi-dimensional matrix r_c_anim to store the positions of the
 % centers of all the bodies.
-% Pre-allocate rc_anim(n_spatial, n_bodies, n_time)
+% Pre-allocate r_c_anim(n_spatial, n_bodies, n_time)
 % n_spatial: no. of spatial coordinates. n_spatial = 2 since we have x and z.
 % n_q: no. of bodies.
 % n_time: no. of time samples.
-rc_anim = nan(2,5,numel(t_anim)); 
+r_c_anim = nan(2,5,numel(t_anim)); 
 
-% rc_func: q_anim -> rc_anim.
+% rc_func: q_anim -> r_c_anim.
 for k = 1:numel(t_anim)
-    rc_anim(:,:,k) = rc_func(q_anim(k,:).');
+    r_c_anim(:,:,k) = rc_func(q_anim(k,:).');
 end
 
 %% Debugging
-% size(rc_anim)
-% wheel.x = rc_anim(1,4,:);
+% size(r_c_anim)
+% wheel.x = r_c_anim(1,4,:);
 % size(wheel.x)
 % 
 % return
@@ -36,11 +36,11 @@ end
 % wheel.x = nan(numel(t_anim));
 % wheel.z = nan(numel(t_anim));
 % 
-% % rc_func: q_anim -> rc_anim.
+% % rc_func: q_anim -> r_c_anim.
 % for k = 1:numel(t_anim)
-%     rc_anim(:,:,k) = rc_func(q_anim(k,:).');
-%     wheel.x(k) = rc_anim(1,4,k);
-%     wheel.z(k) = rc_anim(2,4,k);
+%     r_c_anim(:,:,k) = rc_func(q_anim(k,:).');
+%     wheel.x(k) = r_c_anim(1,4,k);
+%     wheel.z(k) = r_c_anim(2,4,k);
 % end
 
 
@@ -109,8 +109,8 @@ subplot(draw.m,draw.n,1);
 %     'Interpreter','latex','FontSize',18);
 title('Wheel Position', ...
     'Interpreter','latex','FontSize',18); 
-% fwA: rc_anim(:,4,k).
-plot(   t_anim, squeeze(rc_anim(1,4,:)), ...
+% fwA: r_c_anim(:,4,k).
+plot(   t_anim, squeeze(r_c_anim(1,4,:)), ...
     'LineWidth', 1.5); grid on;
 % plot(   t_anim, wheel.x, ...
 %     'LineWidth', 1.5); grid on;
@@ -123,7 +123,7 @@ ylabel('x','Interpreter','latex','FontSize',20);
 
 subplot(draw.m,draw.n,2); 
 
-plot(   t_anim, squeeze(rc_anim(2,4,:)), ...
+plot(   t_anim, squeeze(r_c_anim(2,4,:)), ...
     'LineWidth', 1.5); grid on;
 ylabel('z','Interpreter','latex','FontSize',20);
 % legend({    'dq1',...
