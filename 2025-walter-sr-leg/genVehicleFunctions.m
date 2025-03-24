@@ -42,7 +42,7 @@ params = getVehicleParams();
 %%
 
 DOF_unc = 6; % Degrees of freedom in the unconstrained system.
-DOF = 6+4; % Change the variable name to nq. DOF is incorrect.
+n_q = 6+4; % Number of coordinates.
 Nact = 3; % Number of actuators.
 
 slope_angle = 0; %-pi/4;
@@ -59,18 +59,18 @@ syms t
 
 
 % Create symbolic functions q1(t), q2(t), ... 
-for iter = 1:DOF 
+for iter = 1:n_q 
     syms(['q' num2str(iter) '(t)'])
 end
 % Create a symbolic array q = [q1(t); q2(t); ... ].
-for iter = 1:DOF
+for iter = 1:n_q
     q(iter,1) = eval(['q' num2str(iter)]);
     q_char{iter,1} = eval(['q' num2str(iter)]);
 end
 
-syms('q_',[DOF 1])
-syms('dq_',[DOF 1])
-syms('ddq_',[DOF 1])
+syms('q_',[n_q 1])
+syms('dq_',[n_q 1])
+syms('ddq_',[n_q 1])
 syms('u_',[Nact 1])
 
 
@@ -370,11 +370,11 @@ T = sum(1/2*m_vec.*sum(dr_dt.*dr_dt,1) + 1/2*I_vec.*dt_j_dt.*dt_j_dt,2);
 L = T - V;
 
 
-for iter = 1:DOF
+for iter = 1:n_q
     dL_dq(iter,1) = diff(L,eval(['q' num2str(iter) ,'(t)']));
 end
 
-for iter = 1:DOF
+for iter = 1:n_q
     dL_ddq(iter,1) = diff(L,eval(['diff(q' num2str(iter) ,'(t),t)']));
 end
 
@@ -402,7 +402,7 @@ dxdt_task = diff(x_task,t);
 % variables. This allows us to compute the Jacobian.
 
 % Substitution Loop
-for iter = 1:DOF
+for iter = 1:n_q
     E_L_eq = subs(E_L_eq, ...
         {eval(['diff(q',num2str(iter),'(t),t,t)']), ...
         eval(['diff(q',num2str(iter),'(t),t)']), ...
@@ -440,11 +440,11 @@ end
 
 J_task = jacobian(x_task,q_);
 J_task_temp = J_task;
-for iter = 1:DOF
+for iter = 1:n_q
     J_task_temp = subs(J_task_temp,q_(iter),eval(['q',num2str(iter),'(t)']));
 end
 dJdt_task = diff(J_task_temp,t);
-for iter = 1:DOF
+for iter = 1:n_q
     dJdt_task = subs(dJdt_task, ...
         {eval(['diff(q',num2str(iter),'(t),t,t)']), ...
         eval(['diff(q',num2str(iter),'(t),t)']), ...
@@ -500,7 +500,7 @@ f_con_term = A.'*lam_;
 
 % Wnc = B*u_;
 
-Wnc = zeros(DOF,1);
+Wnc = zeros(n_q,1);
 
 % Add actuation
 f = C_term+Wnc; % Not sure where this is being used.
