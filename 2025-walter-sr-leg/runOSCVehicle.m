@@ -15,7 +15,7 @@ tic
 params = getVehicleParams();
 
 % -----------------------------------------------------------
-% Added Sep 16.
+% Added 2023 Sep 16.
 
 % Initial state
 
@@ -28,7 +28,7 @@ p0 = 3.5652 ; % From fsolve.
 alpha_terr_0 = alpha_terr_func(p0);
 
 % Find the exterior unit normal to the terrain.
-% 'External' means it points to the exterior of the terrain at all points.
+% 'Exterior' means it points to the exterior of the terrain at all points.
 % In constrast, the usual unit normal points towards the concave side.
 N_ute_0 = RM_CCW(pi/2) * T_terr_func(p0) ;
 p2fwA_0 = params.wheel_radius * N_ute_0 ; % Scaled by the wheel radius.
@@ -41,15 +41,8 @@ B_angle = pi/2 - A_angle ; % Angle w.r.t. -Y axis.
 phi0 = -pi/2 - B_angle ;
 % phi0 = -pi/2 ;
 
-phi_bwB_0 = -pi/2 + B_angle ; p_bwB_0 = -p0 ;
-
-% q0_phys = [base0(1) base0(2) 0 -pi/4 pi/4 0 0 -3*pi/4 3*pi/4 0 0].' ; % 11 values.
-% % q0 = [q0_phys; phi0; p0] ;
-% q0 = [q0_phys; phi0; p0; phi_bwB_0; p_bwB_0] ;
-
 q0_phys = zeros(6,1);
 q0_phys(2) = 0.75;
-% q0 = [q0_phys; phi0; p0] ;
 q0 = [q0_phys; phi0; p0] ;
 
 
@@ -136,9 +129,3 @@ y_anim = interp1(t_out,y_out,t_anim);
 q_anim = y_anim(:,1:2:end);
 
 save("data.mat")
-
-
-%%
-
-
-
