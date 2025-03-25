@@ -5,7 +5,7 @@ close all
 
 load("data.mat")
 
-v = VideoWriter('v0-test.mp4','MPEG-4');
+v = VideoWriter('v1-test.mp4','MPEG-4');
 v.Quality = 99;
 v.FrameRate = FPS;
 open(v);
@@ -39,10 +39,15 @@ hold on
 % plot_terr = plot(params.terrain_radius * cos(p_plot), params.terrain_radius * sin(p_plot), 'k-') ;
 
 p_plotVal = -10:0.1:20 ;
-% plot_terr = plot(p_plot, sin(p_plot), 'k-') ;
-terr_plotVal = terrain_hill(p_plotVal) ;
-% plot_terr = fill([terr_plotVal(1,:), terr_plotVal(1,end), terr_plotVal(1,1)], [terr_plotVal(2,:), -2 -2], 'k', 'facecolor', [1 1 1]*0.75) ;
-plot_terr = plot([terr_plotVal(1,:), terr_plotVal(1,end), terr_plotVal(1,1)], [terr_plotVal(2,:), -2 -2], 'k-','linewidth',1) ;
+
+% alpha_terr = [p; -0.4142] ; % Horizontal line.
+terr_plotVal = ones(numel(p_plotVal),1) * -0.4142;
+plot_terr = plot(p_plotVal, terr_plotVal, 'k-','linewidth',1) ;
+
+% % plot_terr = plot(p_plot, sin(p_plot), 'k-') ;
+% terr_plotVal = terrain_hill(p_plotVal) ;
+% % plot_terr = fill([terr_plotVal(1,:), terr_plotVal(1,end), terr_plotVal(1,1)], [terr_plotVal(2,:), -2 -2], 'k', 'facecolor', [1 1 1]*0.75) ;
+% plot_terr = plot([terr_plotVal(1,:), terr_plotVal(1,end), terr_plotVal(1,1)], [terr_plotVal(2,:), -2 -2], 'k-','linewidth',1) ;
 
 plot_terr.HandleVisibility = "off" ;
 
