@@ -130,7 +130,6 @@ FPS = 20;
 SLOMO = 1;
 
 t_anim = (min(t_out):1/FPS/SLOMO:max(t_out)).';
-% t_anim = 0.183+[0:5];
 y_anim = interp1(t_out,y_out,t_anim);
 
 q_anim = y_anim(:,1:2:end);
