@@ -89,8 +89,10 @@ for iter = 1:numel(t_anim)
     % plot(plot_coords(1,:), plot_coords(2,:), 'k-', 'linewidth', 4)
     R = 0.2;
     R2 = 0.4;
-    color1 = [201 177 141]/255;
-    color2 = [0.2 0.2 0.2];
+    color_tan = [201 177 141]/255;
+    color_dark_grey = [0.2 0.2 0.2];
+    color3 = [191 201 202]/255;
+    color_yellow = [247 220 111]/255;
     R_pin = 0.08;
     rim_ratio = 0.9;
     R_com = 0.23;
@@ -125,13 +127,18 @@ for iter = 1:numel(t_anim)
 %     fill(plot_coords(1,2)+params.L8*rim_ratio*wheel_points(1,:),plot_coords(2,2)+params.L8*rim_ratio*wheel_points(2,:),'c','facecolor',color1)
 %     plot(plot_coords(1,2)+[0 params.L8*cos(bw_rotA)],plot_coords(2,2)+[0 params.L8*sin(bw_rotA)],'k-')
 % 
-    fill(plot_coords(1,end-1)+params.L5*wheel_points(1,:),plot_coords(2,end-1)+params.L5*wheel_points(2,:),'g','facecolor',color2)
-    fill(plot_coords(1,end-1)+params.L5*rim_ratio*wheel_points(1,:),plot_coords(2,end-1)+params.L5*rim_ratio*wheel_points(2,:),'g','facecolor',color1)
-    plot(plot_coords(1,end-1)+[0 params.L5*cos(fw_rotB)],plot_coords(2,end-1)+[0 params.L5*sin(fw_rotB)],'k-')
+    fill(plot_coords(1,end)+params.L4*wheel_points(1,:), ...
+        plot_coords(2,end)+params.L4*wheel_points(2,:), ...
+        'g','facecolor',color_dark_grey) % Outer disc. Rim after overlay.
+    fill(plot_coords(1,end)+params.L4*rim_ratio*wheel_points(1,:), ... 
+        plot_coords(2,end)+params.L4*rim_ratio*wheel_points(2,:), ... 
+        'g','facecolor',color_tan) % Overlaid inner disc. Wheel after overlay.
+    plot(plot_coords(1,end)+[0 params.L4*cos(fw_rotA)], ... 
+        plot_coords(2,end)+[0 params.L4*sin(fw_rotA)],'k-') % Spoke.
 % 
-    fill(plot_coords(1,end)+params.L4*wheel_points(1,:),plot_coords(2,end)+params.L4*wheel_points(2,:),'g','facecolor',color2)
-    fill(plot_coords(1,end)+params.L4*rim_ratio*wheel_points(1,:),plot_coords(2,end)+params.L4*rim_ratio*wheel_points(2,:),'g','facecolor',color1)
-    plot(plot_coords(1,end)+[0 params.L4*cos(fw_rotA)],plot_coords(2,end)+[0 params.L4*sin(fw_rotA)],'k-')
+    fill(plot_coords(1,end-1)+params.L5*wheel_points(1,:),plot_coords(2,end-1)+params.L5*wheel_points(2,:),'g','facecolor',color_dark_grey)
+    fill(plot_coords(1,end-1)+params.L5*rim_ratio*wheel_points(1,:),plot_coords(2,end-1)+params.L5*rim_ratio*wheel_points(2,:),'g','facecolor',color3)
+    plot(plot_coords(1,end-1)+[0 params.L5*cos(fw_rotB)],plot_coords(2,end-1)+[0 params.L5*sin(fw_rotB)],'k-')
 % 
 % 
 %     prect = RoundRectangle(plot_coords(:,1), plot_coords(:,1), R_pin, 0);
