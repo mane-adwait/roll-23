@@ -42,7 +42,7 @@ phi0 = -pi/2 - B_angle ;
 % phi0 = -pi/2 ;
 
 q0_phys = zeros(6,1);
-q0_phys(2) = 0.75;
+% q0_phys(2) = 0.75;
 q0 = [q0_phys; phi0; p0] ;
 
 

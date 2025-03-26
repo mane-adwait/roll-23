@@ -41,7 +41,7 @@ hold on
 p_plotVal = -10:0.1:20 ;
 
 % alpha_terr = [p; -0.4142] ; % Horizontal line.
-terr_plotVal = ones(numel(p_plotVal),1) * -0.4142;
+terr_plotVal = ones(numel(p_plotVal),1) * -0.75;
 plot_terr = plot(p_plotVal, terr_plotVal, 'k-','linewidth',1) ;
 
 % % plot_terr = plot(p_plot, sin(p_plot), 'k-') ;

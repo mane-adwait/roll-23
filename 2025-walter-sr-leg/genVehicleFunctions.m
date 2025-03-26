@@ -84,28 +84,32 @@ ij = 0;
 % Base joint (1)
 ij = ij+1;
 r_j(1:2,ij) = [q(1); q(2)]; % Euclidean vector. q(1) = q1(t).
-t_j(1,ij) = q3; % Planar rotation
+% t_j(1,ij) = q3; % Planar rotation
+t_j(1,ij) = sym(0); % Planar rotation
 
 % Front leg joint (2)
 ij = ij+1;
 r_j(1:2,ij) = r_j(:,ij-1) + params.L1a*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))]; % Euclidean vector
-t_j(1,ij) = t_j(1,ij-1)+q4; % Planar rotation
+% t_j(1,ij) = t_j(1,ij-1)+q4; % Planar rotation
+t_j(1,ij) = q3; % Planar rotation
 
 % Front knee joint (3)
 ij = ij+1;
 r_j(1:2,ij) = r_j(:,ij-1) + params.L2*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))]; % Euclidean vector
-t_j(1,ij) = t_j(1,ij-1)+q5; % Planar rotation
+% t_j(1,ij) = t_j(1,ij-1)+q5; % Planar rotation
+t_j(1,ij) = t_j(1,ij-1)+q4; % Planar rotation
 
 % Front wheel joint A (4)
 ij = ij+1;
 r_j(1:2,ij) = r_j(:,ij-1) + params.L3a*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))]; % Euclidean vector
-t_j(1,ij) = t_j(1,ij-1)+q6; % Planar rotation
+% t_j(1,ij) = t_j(1,ij-1)+q6; % Planar rotation
+t_j(1,ij) = t_j(1,ij-1)+q5; % Planar rotation
 
 % Front wheel joint B (5)
 ij = ij+1;
 r_j(1:2,ij) = r_j(:,ij-2) - params.L3b*[cos(t_j(1,ij-2));sin(t_j(1,ij-2))]; % Euclidean vector
-t_j(1,ij) = t_j(1,ij-2)+q7; % Planar rotation
-
+% t_j(1,ij) = t_j(1,ij-2)+q7; % Planar rotation
+t_j(1,ij) = t_j(1,ij-1)+q6; % Planar rotation
 
 % % Back leg joint (6)
 % ij = ij+1;
@@ -233,7 +237,8 @@ d_s_wheel_dt = simplify( norm_d_alpha_wheel_dphi * dphi ) ;
 % Walter Sr. leg:
 p = q(8) ;     dp = diff(q(8)) ;
 
-alpha_terr = [p; -0.4142] ; % Parametric function of a line.
+% alpha_terr = [p; -0.4142] ; % Parametric function of a line.
+alpha_terr = [p; -0.75] ; % Parametric function of a line.
 % alpha_terr = params.terrain_radius * [cos(p); sin(p)] ; % Parametric function of a circle.
 % alpha_terr = [p; sin(p)] ; % Parametric function of a sinusoid.
 % alpha_terr = terrain_hill(p) ;
