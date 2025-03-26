@@ -5,7 +5,7 @@ close all
 
 load("data.mat")
 
-v = VideoWriter('v1-test.mp4','MPEG-4');
+v = VideoWriter('v2-test.mp4','MPEG-4');
 v.Quality = 99;
 v.FrameRate = FPS;
 open(v);
@@ -21,7 +21,6 @@ axis equal
 grid off
 % [xmin xmax ymin ymax]
 % axis([-6 15 -1 4])
-
 axis([-6 15 -5 5])
 
 NUM_WHEEL_POINTS = 200;
