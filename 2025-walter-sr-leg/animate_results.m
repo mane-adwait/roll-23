@@ -91,7 +91,7 @@ for iter = 1:numel(t_anim)
     R2 = 0.4;
     color_tan = [201 177 141]/255;
     color_dark_grey = [0.2 0.2 0.2];
-    color3 = [191 201 202]/255;
+    color_light_grey = [191 201 202]/255;
     color_yellow = [247 220 111]/255;
     R_pin = 0.08;
     rim_ratio = 0.9;
@@ -137,7 +137,7 @@ for iter = 1:numel(t_anim)
         plot_coords(2,end)+[0 params.L4*sin(fw_rotA)],'k-') % Spoke.
 % 
     fill(plot_coords(1,end-1)+params.L5*wheel_points(1,:),plot_coords(2,end-1)+params.L5*wheel_points(2,:),'g','facecolor',color_dark_grey)
-    fill(plot_coords(1,end-1)+params.L5*rim_ratio*wheel_points(1,:),plot_coords(2,end-1)+params.L5*rim_ratio*wheel_points(2,:),'g','facecolor',color3)
+    fill(plot_coords(1,end-1)+params.L5*rim_ratio*wheel_points(1,:),plot_coords(2,end-1)+params.L5*rim_ratio*wheel_points(2,:),'g','facecolor',color_light_grey)
     plot(plot_coords(1,end-1)+[0 params.L5*cos(fw_rotB)],plot_coords(2,end-1)+[0 params.L5*sin(fw_rotB)],'k-')
 % 
 % 
