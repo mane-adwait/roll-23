@@ -99,32 +99,32 @@ for iter = 1:numel(t_anim)
 
     % MAIN BODY
 %     prect = RoundRectangle(plot_coords(:,4), plot_coords(:,5), R2, 0);
-%     fill(prect(1,:), prect(2,:), 'k', 'facecolor', color1)
+%     fill(prect(1,:), prect(2,:), 'k', 'facecolor', color_tan)
 % 
 %     prect = RoundRectangle(plot_coords(:,3), plot_coords(:,4), R, 0);
-%     fill(prect(1,:), prect(2,:), 'k', 'facecolor', color1)
+%     fill(prect(1,:), prect(2,:), 'k', 'facecolor', color_tan)
 % 
 % 
 % 
 % 
 %     prect = RoundRectangle(plot_coords(:,5), plot_coords(:,6), R, 0);
-%     fill(prect(1,:), prect(2,:), 'k', 'facecolor', color1)
+%     fill(prect(1,:), prect(2,:), 'k', 'facecolor', color_tan)
 % 
 % 
 %     prect = RoundRectangle(plot_coords(:,1), plot_coords(:,2), R, 0);
-%     fill(prect(1,:), prect(2,:), 'k', 'facecolor', color1)
+%     fill(prect(1,:), prect(2,:), 'k', 'facecolor', color_tan)
 % %     prect = RoundRectangle(plot_coords(:,5), plot_coords(:,5), R_pin, 0);
 % %     fill(prect(1,:), prect(2,:), 'k', 'facecolor', [0 0 0])
 % 
 %     prect = RoundRectangle(plot_coords(:,7), plot_coords(:,8), R, 0);
-%     fill(prect(1,:), prect(2,:), 'k', 'facecolor', color1)
+%     fill(prect(1,:), prect(2,:), 'k', 'facecolor', color_tan)
 % 
 %     fill(plot_coords(1,1)+params.L9*wheel_points(1,:),plot_coords(2,1)+params.L9*wheel_points(2,:),'c','facecolor',color2)
-%     fill(plot_coords(1,1)+params.L9*rim_ratio*wheel_points(1,:),plot_coords(2,1)+params.L9*rim_ratio*wheel_points(2,:),'c','facecolor',color1)
+%     fill(plot_coords(1,1)+params.L9*rim_ratio*wheel_points(1,:),plot_coords(2,1)+params.L9*rim_ratio*wheel_points(2,:),'c','facecolor',color_tan)
 %     plot(plot_coords(1,1)+[0 params.L9*cos(bw_rotB)],plot_coords(2,1)+[0 params.L9*sin(bw_rotB)],'k-')
 % 
 %     fill(plot_coords(1,2)+params.L8*wheel_points(1,:),plot_coords(2,2)+params.L8*wheel_points(2,:),'c','facecolor',color2)
-%     fill(plot_coords(1,2)+params.L8*rim_ratio*wheel_points(1,:),plot_coords(2,2)+params.L8*rim_ratio*wheel_points(2,:),'c','facecolor',color1)
+%     fill(plot_coords(1,2)+params.L8*rim_ratio*wheel_points(1,:),plot_coords(2,2)+params.L8*rim_ratio*wheel_points(2,:),'c','facecolor',color_tan)
 %     plot(plot_coords(1,2)+[0 params.L8*cos(bw_rotA)],plot_coords(2,2)+[0 params.L8*sin(bw_rotA)],'k-')
 % 
     fill(plot_coords(1,end)+params.L4*wheel_points(1,:), ...
