@@ -148,10 +148,12 @@ r_c(1:2,ij) = r_j(:,ij);
 
 % Wheel A center (4)
 ij = ij+1;
-r_c(1:2,ij) = r_j(:,ij-1) + params.L3a*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))];
+% r_c(1:2,4) = r_j(1:2,4)
+r_c(1:2,ij) = r_j(:,ij-1) + params.L3a*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))]; 
 
 % Wheel B center (5)
 ij = ij+1;
+% r_c(1:2,5) = r_j(1:2,5)
 r_c(1:2,ij) = r_j(:,ij-2) - params.L3b*[cos(t_j(1,ij-2));sin(t_j(1,ij-2))];
 
 

@@ -1,7 +1,10 @@
 % Animate the results.
 % Author: Christian Hubicki. Modified by Adwait Mane in 2025 March.
 
+clear
 close all
+addpath(genpath( 'Functions' ) );
+addpath(genpath( 'auto' ) );
 
 load("data.mat")
 
