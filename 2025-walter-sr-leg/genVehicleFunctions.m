@@ -104,6 +104,7 @@ ij = ij+1;
 r_j(1:2,ij) = r_j(:,ij-1) + params.L3a*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))]; % Euclidean vector
 % t_j(1,ij) = t_j(1,ij-1)+q6; % Planar rotation
 t_j(1,ij) = t_j(1,ij-1)+q5; % Planar rotation
+disp(['Front wheel A:' newline 'ij = ' num2str(ij) newline 't_j(1,ij) = ' char(t_j(1,ij)) newline] )
 
 % Front wheel joint B (5)
 ij = ij+1;

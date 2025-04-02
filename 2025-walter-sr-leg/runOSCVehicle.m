@@ -85,7 +85,7 @@ u_out = [];
 
 for t_start = 0:Ts:(sim_time-Ts)
     
-    t_start
+    disp(['t_start = ' num2str(t_start)])
     
     % Extract generalized coordinates (q) from state vector
     q = y0(1:2:end);
