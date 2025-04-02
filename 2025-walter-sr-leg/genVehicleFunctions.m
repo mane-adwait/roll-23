@@ -42,7 +42,7 @@ params = getVehicleParams();
 %%
 
 DOF_unc = 6; % Degrees of freedom in the unconstrained system.
-n_q = 6+4; % Number of coordinates.
+n_q = 6+2; % Number of coordinates.
 Nact = 3; % Number of actuators.
 
 slope_angle = 0; %-pi/4;
