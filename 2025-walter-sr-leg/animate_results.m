@@ -72,8 +72,11 @@ for iter = 1:numel(t_anim)
     hold on
 
 
-    fw_rotA = sum(q_anim(iter,[3,4,6]));
-    fw_rotB = sum(q_anim(iter,[3,4,5]));
+    % fw_rotA = sum(q_anim(iter,[3,4,6]));
+    % fw_rotB = sum(q_anim(iter,[3,4,5]));
+    fw_rotA = sum(q_anim(iter,[3,4,5]));
+    fw_rotB = sum(q_anim(iter,[3,4,6]));
+
 
     % bw_rotA = sum(q_anim(iter,[3,8,9,10]));
     % bw_rotB = sum(q_anim(iter,[3,8,9,11]));
@@ -93,7 +96,7 @@ for iter = 1:numel(t_anim)
     R = 0.2;
     R2 = 0.4;
     color_tan = [201 177 141]/255;
-    color_dark_grey = [0.2 0.2 0.2];
+    color_black1 = [0.2 0.2 0.2];
     color_light_grey = [191 201 202]/255;
     color_yellow = [247 220 111]/255;
     R_pin = 0.08;
@@ -129,21 +132,43 @@ for iter = 1:numel(t_anim)
 %     fill(plot_coords(1,2)+params.L8*wheel_points(1,:),plot_coords(2,2)+params.L8*wheel_points(2,:),'c','facecolor',color2)
 %     fill(plot_coords(1,2)+params.L8*rim_ratio*wheel_points(1,:),plot_coords(2,2)+params.L8*rim_ratio*wheel_points(2,:),'c','facecolor',color_tan)
 %     plot(plot_coords(1,2)+[0 params.L8*cos(bw_rotA)],plot_coords(2,2)+[0 params.L8*sin(bw_rotA)],'k-')
-% 
-    fill(plot_coords(1,end)+params.L4*wheel_points(1,:), ...
-        plot_coords(2,end)+params.L4*wheel_points(2,:), ...
-        'g','facecolor',color_dark_grey) % Outer disc. Rim after overlay.
-    fill(plot_coords(1,end)+params.L4*rim_ratio*wheel_points(1,:), ... 
-        plot_coords(2,end)+params.L4*rim_ratio*wheel_points(2,:), ... 
+%
+% -------------------------------------------------------
+% CH:
+    % fill(plot_coords(1,end)+params.L4*wheel_points(1,:), ...
+    %     plot_coords(2,end)+params.L4*wheel_points(2,:), ...
+    %     'g','facecolor',color_black1) % Outer disc. Rim after overlay.
+    % fill(plot_coords(1,end)+params.L4*rim_ratio*wheel_points(1,:), ... 
+    %     plot_coords(2,end)+params.L4*rim_ratio*wheel_points(2,:), ... 
+    %     'g','facecolor',color_tan) % Overlaid inner disc. Wheel after overlay.
+    % plot(plot_coords(1,end)+[0 params.L4*cos(fw_rotA)], ... 
+    %     plot_coords(2,end)+[0 params.L4*sin(fw_rotA)],'k-') % Spoke.
+    % 
+    % fill(plot_coords(1,end-1)+params.L5*wheel_points(1,:),plot_coords(2,end-1)+params.L5*wheel_points(2,:),'g','facecolor',color_black1)
+    % fill(plot_coords(1,end-1)+params.L5*rim_ratio*wheel_points(1,:),plot_coords(2,end-1)+params.L5*rim_ratio*wheel_points(2,:),'g','facecolor',color_light_grey)
+    % plot(plot_coords(1,end-1)+[0 params.L5*cos(fw_rotB)],plot_coords(2,end-1)+[0 params.L5*sin(fw_rotB)],'k-')
+% -------------------------------------------------------
+% Mane:
+    fill(plot_coords(1,4)+params.L4*wheel_points(1,:), ...
+        plot_coords(2,4)+params.L4*wheel_points(2,:), ...
+        'g','facecolor',color_black1) % Outer disc. Rim after overlay.
+    fill(plot_coords(1,4)+params.L4*rim_ratio*wheel_points(1,:), ... 
+        plot_coords(2,4)+params.L4*rim_ratio*wheel_points(2,:), ... 
         'g','facecolor',color_tan) % Overlaid inner disc. Wheel after overlay.
-    plot(plot_coords(1,end)+[0 params.L4*cos(fw_rotA)], ... 
-        plot_coords(2,end)+[0 params.L4*sin(fw_rotA)],'k-') % Spoke.
-% 
-    fill(plot_coords(1,end-1)+params.L5*wheel_points(1,:),plot_coords(2,end-1)+params.L5*wheel_points(2,:),'g','facecolor',color_dark_grey)
-    fill(plot_coords(1,end-1)+params.L5*rim_ratio*wheel_points(1,:),plot_coords(2,end-1)+params.L5*rim_ratio*wheel_points(2,:),'g','facecolor',color_light_grey)
-    plot(plot_coords(1,end-1)+[0 params.L5*cos(fw_rotB)],plot_coords(2,end-1)+[0 params.L5*sin(fw_rotB)],'k-')
-% 
-% 
+    plot(plot_coords(1,4)+[0 params.L4*cos(fw_rotA)], ... 
+        plot_coords(2,4)+[0 params.L4*sin(fw_rotA)],'k-') % Spoke.
+
+    fill(plot_coords(1,5)+params.L5*wheel_points(1,:), ...
+        plot_coords(2,5)+params.L5*wheel_points(2,:), ...
+        'g','facecolor',color_black1) % Outer disc. Rim after overlay.
+    fill(plot_coords(1,5)+params.L5*rim_ratio*wheel_points(1,:), ...
+        plot_coords(2,5)+params.L5*rim_ratio*wheel_points(2,:), ...
+        'g','facecolor',color_light_grey) % Overlaid inner disc. Wheel after overlay.
+    plot(plot_coords(1,5)+[0 params.L5*cos(fw_rotB)], ...
+        plot_coords(2,5)+[0 params.L5*sin(fw_rotB)],'k-') % Spoke.
+
+
+% -------------------------------------------------------
 %     prect = RoundRectangle(plot_coords(:,1), plot_coords(:,1), R_pin, 0);
 %     fill(prect(1,:), prect(2,:), 'k', 'facecolor', [0 0 0])
 %     prect = RoundRectangle(plot_coords(:,2), plot_coords(:,2), R_pin, 0);
