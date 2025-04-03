@@ -15,6 +15,13 @@ tic
 params = getVehicleParams();
 
 % -----------------------------------------------------------
+
+% User-defined: p_0, q4_0, q3_0.
+% Hard-coded: wheel angles q5_0 and q6_0.
+% Derived: phi_0, q1_0, q2_0.
+% 
+
+% -----------------------------------------------------------
 % Added 2023 Sep 16.
 
 % Initial state
