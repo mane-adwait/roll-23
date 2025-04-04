@@ -6,9 +6,9 @@ close all
 addpath(genpath( 'Functions' ) );
 addpath(genpath( 'auto' ) );
 
-load("v2-data.mat")
+load("v3-data.mat")
 
-v = VideoWriter('v2-test.mp4','MPEG-4');
+v = VideoWriter('v3-test.mp4','MPEG-4');
 v.Quality = 99;
 v.FrameRate = FPS;
 open(v);

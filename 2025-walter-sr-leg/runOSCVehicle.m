@@ -30,27 +30,21 @@ phi_0 = 0;
 
 % Initial state
 
-% fwA to base for standard initial configuration:
-fwA2base = [-3.41421 ; 1.41421] ;
+% p_0 = -pi/2 - pi/4;
+p_0 = 3.5652 ; % From fsolve.
 
-% p0 = -pi/2 - pi/4;
-p0 = 3.5652 ; % From fsolve.
-
-alpha_terr_0 = alpha_terr_func(p0);
+alpha_terr_0 = alpha_terr_func(p_0);
 
 % Find the exterior unit normal to the terrain.
 % 'Exterior' means it points to the exterior of the terrain at all points.
 % In constrast, the usual unit normal points towards the concave side.
-N_ute_0 = RM_CCW(pi/2) * T_terr_func(p0) ;
+N_ute_0 = RM_CCW(pi/2) * T_terr_func(p_0) ;
 p2fwA_0 = params.wheel_radius * N_ute_0 ; % Scaled by the wheel radius.
-
-% p2base = p2fwA_0 + fwA2base ;
-% base0 = alpha_terr_0 + p2base ;
 
 A_angle = atan2(N_ute_0(2), N_ute_0(1)) ; % Angle w.r.t. +X axis.
 B_angle = pi/2 - A_angle ; % Angle w.r.t. -Y axis.
-phi0 = -pi/2 - B_angle ;
-% phi0 = -pi/2 ;
+phi_0 = -pi/2 - B_angle ;
+% phi_0 = -pi/2 ;
 % -----------------------------------------------------------
 
 angle_shin = pi-(q3_0+q4_0);
@@ -58,11 +52,13 @@ base0 = alpha_terr_0 + p2fwA_0 + ...
     params.L3a*[cos(angle_shin); sin(angle_shin)] + ...
     params.L2*[cos(pi-q3_0); sin(pi-q3_0)] - ...
     [params.L1b; 0];
+
+q0 = [base0(1); base0(2); q3_0; q4_0; q5_0; q6_0; phi_0; p_0] ;
 % -----------------------------------------------------------
 
-q0_phys = zeros(6,1);
-% q0_phys(2) = 0.75;
-q0 = [q0_phys; phi0; p0] ;
+% q0_phys = zeros(6,1);
+% % q0_phys(2) = 0.75;
+% q0 = [q0_phys; phi_0; p_0] ;
 % -----------------------------------------------------------
 
 % q0 = [1 1 0 -pi/4 pi/4 0 0 -3*pi/4 3*pi/4 0 0].';
@@ -145,4 +141,4 @@ y_anim = interp1(t_out,y_out,t_anim);
 
 q_anim = y_anim(:,1:2:end);
 
-save("v2-data.mat")
+save("v3-data.mat")
