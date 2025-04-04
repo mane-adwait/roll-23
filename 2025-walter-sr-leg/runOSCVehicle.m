@@ -17,9 +17,13 @@ params = getVehicleParams();
 % -----------------------------------------------------------
 
 % User-defined: p_0, q4_0, q3_0.
+p_0 = 0; q3_0 = -3*pi/4; q4_0 = pi/2;
 % Hard-coded: wheel angles q5_0 and q6_0.
+q5_0 = -(q3_0 + q4_0); q6_0 = 0; 
 % Derived: phi_0, q1_0, q2_0.
-% 
+phi_0 = 0;
+% q1_0 = NaN;
+% q2_0 = NaN;
 
 % -----------------------------------------------------------
 % Added 2023 Sep 16.
@@ -40,19 +44,25 @@ alpha_terr_0 = alpha_terr_func(p0);
 N_ute_0 = RM_CCW(pi/2) * T_terr_func(p0) ;
 p2fwA_0 = params.wheel_radius * N_ute_0 ; % Scaled by the wheel radius.
 
-p2base = p2fwA_0 + fwA2base ;
-base0 = alpha_terr_0 + p2base ;
+% p2base = p2fwA_0 + fwA2base ;
+% base0 = alpha_terr_0 + p2base ;
 
 A_angle = atan2(N_ute_0(2), N_ute_0(1)) ; % Angle w.r.t. +X axis.
 B_angle = pi/2 - A_angle ; % Angle w.r.t. -Y axis.
 phi0 = -pi/2 - B_angle ;
 % phi0 = -pi/2 ;
+% -----------------------------------------------------------
+
+angle_shin = pi-(q3_0+q4_0);
+base0 = alpha_terr_0 + p2fwA_0 + ...
+    params.L3a*[cos(angle_shin); sin(angle_shin)] + ...
+    params.L2*[cos(pi-q3_0); sin(pi-q3_0)] - ...
+    [params.L1b; 0];
+% -----------------------------------------------------------
 
 q0_phys = zeros(6,1);
 % q0_phys(2) = 0.75;
 q0 = [q0_phys; phi0; p0] ;
-
-
 % -----------------------------------------------------------
 
 % q0 = [1 1 0 -pi/4 pi/4 0 0 -3*pi/4 3*pi/4 0 0].';
