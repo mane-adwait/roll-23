@@ -16,44 +16,73 @@ params = getVehicleParams();
 
 % -----------------------------------------------------------
 
-% User-defined: p_0, q4_0, q3_0.
-p_0 = 0; q3_0 = -3*pi/4; q4_0 = pi/2;
-% Hard-coded: wheel angles q5_0 and q6_0.
-q5_0 = -(q3_0 + q4_0); q6_0 = 0; 
-% Derived: phi_0, q1_0, q2_0.
-phi_0 = 0;
-% q1_0 = NaN;
-% q2_0 = NaN;
+% 2025 May:
+t4_0 = 0; % Assume for all configurations.
+% User-defined: p_0, q4_0, q5_0, q6_0.
+p_0 = 0; q4_0 = pi/2; q5_0 = pi/4; q6_0 = 0;
+% Derived: q1_0, q2_0, q3_0, phi_0.
 
-% -----------------------------------------------------------
-% Added 2023 Sep 16.
+q3_0 = t4_0 - q4_0 - q5_0;
 
-% Initial state
-
-% p_0 = -pi/2 - pi/4;
-p_0 = 3.5652 ; % From fsolve.
-
+% Derive q1_0, q2_0:
 alpha_terr_0 = alpha_terr_func(p_0);
-
 % Find the exterior unit normal to the terrain.
 % 'Exterior' means it points to the exterior of the terrain at all points.
 % In constrast, the usual unit normal points towards the concave side.
 N_ute_0 = RM_CCW(pi/2) * T_terr_func(p_0) ;
 p2fwA_0 = params.wheel_radius * N_ute_0 ; % Scaled by the wheel radius.
+base_0 = alpha_terr_0 + p2fwA_0 + ...
+    params.L3a*[cos(pi-(q3_0+q4_0)); sin(pi-(q3_0+q4_0))] + ...
+    params.L2*[cos(pi-q3_0); sin(pi-q3_0)] - [params.L1b; 0] ;
+q1_0 = base_0(1); q2_0 = base_0(2);
 
-A_angle = atan2(N_ute_0(2), N_ute_0(1)) ; % Angle w.r.t. +X axis.
-B_angle = pi/2 - A_angle ; % Angle w.r.t. -Y axis.
-phi_0 = -pi/2 - B_angle ;
-% phi_0 = -pi/2 ;
+% Derive phi_0:
+T_terr_0 = T_terr_func(p_0);
+A_angle = atan2(T_terr_0(2),T_terr_0(1)); % Angle w.r.t. +X axis.
+phi_0 = pi/2 - A_angle;
+
+q0 = [q1_0; q2_0; q3_0; q4_0; q5_0; q6_0; phi_0; p_0] ;
 % -----------------------------------------------------------
 
-angle_shin = pi-(q3_0+q4_0);
-base0 = alpha_terr_0 + p2fwA_0 + ...
-    params.L3a*[cos(angle_shin); sin(angle_shin)] + ...
-    params.L2*[cos(pi-q3_0); sin(pi-q3_0)] - ...
-    [params.L1b; 0];
-
-q0 = [base0(1); base0(2); q3_0; q4_0; q5_0; q6_0; phi_0; p_0] ;
+% % 2025 March:
+% % User-defined: p_0, q4_0, q3_0.
+% p_0 = 0; q3_0 = -3*pi/4; q4_0 = pi/2;
+% % Hard-coded: wheel angles q5_0 and q6_0.
+% q5_0 = -(q3_0 + q4_0); q6_0 = 0; 
+% % Derived: phi_0, q1_0, q2_0.
+% phi_0 = 0;
+% % q1_0 = NaN;
+% % q2_0 = NaN;
+% 
+% % -----------------------------------------------------------
+% % Added 2023 Sep 16.
+% 
+% % Initial state
+% 
+% % p_0 = -pi/2 - pi/4;
+% p_0 = 3.5652 ; % From fsolve.
+% 
+% alpha_terr_0 = alpha_terr_func(p_0);
+% 
+% % Find the exterior unit normal to the terrain.
+% % 'Exterior' means it points to the exterior of the terrain at all points.
+% % In constrast, the usual unit normal points towards the concave side.
+% N_ute_0 = RM_CCW(pi/2) * T_terr_func(p_0) ;
+% p2fwA_0 = params.wheel_radius * N_ute_0 ; % Scaled by the wheel radius.
+% 
+% A_angle = atan2(N_ute_0(2), N_ute_0(1)) ; % Angle w.r.t. +X axis.
+% B_angle = pi/2 - A_angle ; % Angle w.r.t. -Y axis.
+% phi_0 = -pi/2 - B_angle ;
+% % phi_0 = -pi/2 ;
+% % -----------------------------------------------------------
+% 
+% angle_shin = pi-(q3_0+q4_0);
+% base0 = alpha_terr_0 + p2fwA_0 + ...
+%     params.L3a*[cos(angle_shin); sin(angle_shin)] + ...
+%     params.L2*[cos(pi-q3_0); sin(pi-q3_0)] - ...
+%     [params.L1b; 0];
+% 
+% q0 = [base0(1); base0(2); q3_0; q4_0; q5_0; q6_0; phi_0; p_0] ;
 % -----------------------------------------------------------
 
 % q0_phys = zeros(6,1);
