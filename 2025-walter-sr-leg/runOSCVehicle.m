@@ -19,7 +19,7 @@ params = getVehicleParams();
 % 2025 May:
 t4_0 = 0; % Assume for all configurations.
 % User-defined: p_0, q4_0, q5_0, q6_0.
-p_0 = 0; q4_0 = pi/2; q5_0 = pi/4; q6_0 = 0;
+p_0 = 0; q4_0 = pi/2; q5_0 = -pi/4; q6_0 = 0;
 % Derived: q1_0, q2_0, q3_0, phi_0.
 
 q3_0 = t4_0 - q4_0 - q5_0;
@@ -32,7 +32,7 @@ alpha_terr_0 = alpha_terr_func(p_0);
 N_ute_0 = RM_CCW(pi/2) * T_terr_func(p_0) ;
 p2fwA_0 = params.wheel_radius * N_ute_0 ; % Scaled by the wheel radius.
 base_0 = alpha_terr_0 + p2fwA_0 + ...
-    params.L3a*[cos(pi-(q3_0+q4_0)); sin(pi-(q3_0+q4_0))] + ...
+    params.L3a*[cos(pi-(q3_0-q4_0)); sin(pi-(q3_0-q4_0))] + ...
     params.L2*[cos(pi-q3_0); sin(pi-q3_0)] - [params.L1b; 0] ;
 q1_0 = base_0(1); q2_0 = base_0(2);
 

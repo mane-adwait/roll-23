@@ -21,7 +21,7 @@ set(gcf,'Units','normalized');
 set(gcf,'OuterPosition',[0.5 0.05 0.5 0.7]) % Bottom right quadrant of screen.
 
 axis equal
-grid off
+grid on
 % [xmin xmax ymin ymax]
 % axis([-6 15 -1 4])
 axis([-6 15 -5 5])
@@ -200,8 +200,9 @@ for iter = 1:numel(t_anim)
     plot(plot_coords(1,:), plot_coords(2,:), 'k-', 'linewidth', 4)
 
 
-    axis off
+    axis on
     hold off
+    grid on
     drawnow
 
     %     pause
