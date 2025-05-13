@@ -19,11 +19,9 @@ params = getVehicleParams();
 % 2025 May:
 t4_0 = 0; % Assume for all configurations.
 % User-defined: p_0, q4_0, q5_0, q6_0.
-% p_0 = 0; q4_0 = pi/2; q5_0 = pi/4; q6_0 = 0; % Crouched configuration.
+p_0 = 0; q4_0 = pi/2; q5_0 = pi/4; q6_0 = 0; % Crouched configuration.
 % p_0 = 0; q4_0 = pi/2; q5_0 = pi/16; q6_0 = 0; % Config-A.
-p_0 = 0; q4_0 = -pi/2; q5_0 = 3*pi/4; q6_0 = 0; % Forward knee configuration.
-% p_0 = 0; q4_0 = 0; q5_0 = 0; q6_0 = 0;
-% p_0 = 0; q4_0 = pi/16; q5_0 = pi/16; q6_0 = 0;
+% p_0 = 0; q4_0 = -pi/2; q5_0 = 3*pi/4; q6_0 = 0; % Forward knee configuration.
 
 
 % Derived: q1_0, q2_0, q3_0, phi_0.
@@ -104,7 +102,7 @@ dq0 = zeros(8,1);
 % Rearrange into q1; dq1; q2; dq2 ... ordering
 y0 = reshape([q0.';dq0.'],[numel(q0)*2,1]);
 
-sim_time = 0.1; %7.5; %5; % Simulation run time
+sim_time = 5; %7.5; %5; % Simulation run time
 Ts = 0.01; % Sample time (for controller)
 
 % Simple Drive Trajectory
