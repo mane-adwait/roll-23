@@ -89,7 +89,8 @@ t_j(1,ij) = sym(0); % Planar rotation
 
 % Front leg joint (2)
 ij = ij+1;
-r_j(1:2,ij) = r_j(:,ij-1) + params.L1a*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))]; % Euclidean vector
+% r_j(1:2,ij) = r_j(:,ij-1) + params.L1a*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))]; % Euclidean vector
+r_j(1:2,ij) = r_j(:,ij-1) - [0; params.L1a]; % Vertical base.
 % t_j(1,ij) = t_j(1,ij-1)+q4; % Planar rotation
 t_j(1,ij) = q3; % Planar rotation
 
