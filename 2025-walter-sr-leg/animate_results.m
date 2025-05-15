@@ -6,9 +6,9 @@ close all
 addpath(genpath( 'Functions' ) );
 addpath(genpath( 'auto' ) );
 
-load("v5-data.mat")
+load("v6-osc-test.mat")
 
-v = VideoWriter('v5-test.mp4','MPEG-4');
+v = VideoWriter('v6-osc-test.mp4','MPEG-4');
 v.Quality = 99;
 v.FrameRate = FPS;
 open(v);

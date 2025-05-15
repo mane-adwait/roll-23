@@ -1,15 +1,17 @@
 function tau = GetTorqueOSC(x_des,dx_des,q,dq)
 
 nX = numel(x_des);
-nU = 6; % nU = 6;
+nU = 3;
 
 % PD gain matrices
 kp = 50*eye(nX); % proportional gains
+% kp = 0*eye(nX); % proportional gains
 
 % DERIVATIVE ONLY GAINS FOR JOINTS (Task 4-7)
-kp(4:7,4:7) = 0;
+% kp(4:7,4:7) = 0;
 
 kd = 10*eye(nX); % derivative gains
+% kd = 0*eye(nX); % derivative gains
 
 
 
@@ -38,11 +40,17 @@ lb(1:nU) = -tau_limit;
 ub(1:nU) = tau_limit;
 
 %% Quadratic Program (QP)
-% Turn off display of results
-options =  optimoptions(@quadprog,'Display','off');
+% Display options: 'off', 'final', 'iter', 'iter-detailed',
+% 'final-detailed'
+% https://www.mathworks.com/help/optim/ug/quadprog.html#btm48d1
+options =  optimoptions(@quadprog,'Display','iter');
 % Run QP solver
 % Design vector z is ordered [u1 u2 ddq1 ddq2].'
-[z, ~] = quadprog(H,f,[],[],Aeq,beq,lb,ub,[],options);
+
+z_0 = ones(nDesignVars,1);
+[z, ~] = quadprog(H,f,[],[],Aeq,beq,lb,ub,z_0,options);
+% [z, ~] = quadprog(H,f,[],[],Aeq,beq,lb,ub,[],options);
+disp(z)
 
 % Pull optimal torques out of the design vector
 % z_temp = z; % copies design vector

@@ -105,16 +105,21 @@ y0 = reshape([q0.';dq0.'],[numel(q0)*2,1]);
 sim_time = 5; %7.5; %5; % Simulation run time
 Ts = 0.01; % Sample time (for controller)
 
-% Simple Drive Trajectory
-height_des = 2.1 ;
-% xdes = @(t) [0; height_des; 0]; % constant height
-% xdes = @(t) [2*t; height_des; 0]; % constant height
-xdes = @(t) [2*t; height_des; 0; 0; 0; 0; 0]; % constant height
-% xdes = @(t) [2*t; height_des; 0; height_des; height_des]; % constant height
-% xdes = @(t) [2*t; 3; 0]; % constant height
-% xdes = @(t) [2*t; 2; 0; 3; 3; 0.75];
-% Jiggle Drive Trajectory
-% xdes = @(t) [2*t; 1.1-0.1*sin(6*t); 0.15*sin(6*t)]; % oscillating height
+% Test OSC.
+height_des = 3 ;
+xdes = @(t) [0; height_des]; % constant height
+
+
+% % Simple Drive Trajectory
+% height_des = 2.1 ;
+% % xdes = @(t) [0; height_des; 0]; % constant height
+% % xdes = @(t) [2*t; height_des; 0]; % constant height
+% xdes = @(t) [2*t; height_des; 0; 0; 0; 0; 0]; % constant height
+% % xdes = @(t) [2*t; height_des; 0; height_des; height_des]; % constant height
+% % xdes = @(t) [2*t; 3; 0]; % constant height
+% % xdes = @(t) [2*t; 2; 0; 3; 3; 0.75];
+% % Jiggle Drive Trajectory
+% % xdes = @(t) [2*t; 1.1-0.1*sin(6*t); 0.15*sin(6*t)]; % oscillating height
 
 % Integrator options
 % options = odeset('OutputFcn',@odeplot);
@@ -139,8 +144,9 @@ for t_start = 0:Ts:(sim_time-Ts)
     dq = y0(2:2:end);
     
     % Compute torques (once per Ts)
-    % tau = GetTorqueOSC(xdes(t_start),dxdes(t_start),q,dq);
-    tau = zeros(2,1);
+    tau = GetTorqueOSC(xdes(t_start),dxdes(t_start),q,dq)
+    % tau(3) = -1000;
+    % tau = zeros(2,1);
     
     % Define inline dynamics function for passing constant torque
     dyn = @(t,y) dynVehicleControl(t,y,tau);
@@ -174,4 +180,4 @@ y_anim = interp1(t_out,y_out,t_anim);
 
 q_anim = y_anim(:,1:2:end);
 
-save("v5-data.mat")
+save("v6-osc-test.mat")

@@ -347,7 +347,7 @@ E_L_eq = dL_ddq_dt-dL_dq;
 % dxdt_task = diff(x_task,t);
 
 % Base position only.
-x_task = [r_c(1:2,1)];
+x_task = [r_c(1:2,1)]
 dxdt_task = diff(x_task,t);
 
 
@@ -453,9 +453,21 @@ f_con_term = A.'*lam_;
 %      0, 0, 0, 0, 0, 0 ... % p
 %      ];
 
-% Wnc = B*u_;
+B = [...
+     0, 0, 0; % x
+     0, 0, 0; % z
+    -1, 0, 0; % t1
+     1,-1, 0; % t2
+     0, 1,-1; % t3
+     0, 0, 1; % t4
+     0, 0, 0; % phi
+     0, 0, 0 ... % p
+     ];
 
-Wnc = zeros(n_q,1);
+
+Wnc = B*u_;
+
+% Wnc = zeros(n_q,1);
 
 % Add actuation
 f = C_term+Wnc; % Not sure where this is being used.
