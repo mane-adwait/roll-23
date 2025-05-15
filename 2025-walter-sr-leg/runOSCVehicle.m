@@ -179,4 +179,4 @@ y_anim = interp1(t_out,y_out,t_anim);
 
 q_anim = y_anim(:,1:2:end);
 
-save("v6-osc-test.mat")
+save("v7-refactor.mat")

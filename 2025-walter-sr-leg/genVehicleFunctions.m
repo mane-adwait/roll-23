@@ -288,8 +288,8 @@ d_con_funcs = dh_dt ;
 d2_con_funcs = d2h_dt2 ;
 
 
-Nlam = numel(d_con_funcs);
-syms('lam_',[Nlam 1])
+n_lam = numel(d_con_funcs);
+syms('lam_',[n_lam 1])
 
 %% Build Inertias
 % Walter Sr. leg has 5 bodies.
@@ -442,7 +442,7 @@ E_L_aug = E_L_eq - f_con_term - Wnc;
 ddq_aug = [ddq_; lam_];
 
 M_aug = jacobian([E_L_aug; d2_con_funcs],ddq_aug);
-% M_aug = [M, A.';  jacobian(d2_con_funcs,ddq_), zeros(Nlam)];
+% M_aug = [M, A.';  jacobian(d2_con_funcs,ddq_), zeros(n_lam)];
 f_aug = -subs([E_L_aug; d2_con_funcs],ddq_aug,zeros(size(ddq_aug)));
 
 
