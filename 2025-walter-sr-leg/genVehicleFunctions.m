@@ -298,28 +298,20 @@ m_vec(1,2) = params.m2;
 m_vec(1,3) = params.m3;
 m_vec(1,4) = params.m4;
 m_vec(1,5) = params.m5;
-% m_vec(1,6) = params.m6;
-% m_vec(1,7) = params.m7;
-% m_vec(1,8) = params.m8;
-% m_vec(1,9) = params.m9;
 
 I_vec(1,1) = params.I1;
 I_vec(1,2) = params.I2;
 I_vec(1,3) = params.I3;
 I_vec(1,4) = params.I4;
 I_vec(1,5) = params.I5;
-% I_vec(1,6) = params.I6;
-% I_vec(1,7) = params.I7;
-% I_vec(1,8) = params.I8;
-% I_vec(1,9) = params.I9;
 
 
 %% Energies
 
 V = sum(m_vec.*r_c(2,:)*params.g,2);
 
-dr_dt = diff(r_c,t);
-dt_j_dt = diff(t_j,t);
+dr_dt = diff(r_c,t); % Linear velocity.
+dt_j_dt = diff(t_j,t); % Angular velocity.
 T = sum(1/2*m_vec.*sum(dr_dt.*dr_dt,1) + 1/2*I_vec.*dt_j_dt.*dt_j_dt,2);
 
 L = T - V;
@@ -394,11 +386,15 @@ for iter = 1:n_q
 end
 
 J_task = jacobian(x_task,q_);
+% Replace the symbolic variable with a symbolic function so we can compute
+% the time derivative.
 J_task_temp = J_task;
 for iter = 1:n_q
-    J_task_temp = subs(J_task_temp,q_(iter),eval(['q',num2str(iter),'(t)']));
+    J_task_temp = subs( J_task_temp, ...
+        q_(iter), eval(['q',num2str(iter),'(t)']) );
 end
-dJdt_task = diff(J_task_temp,t);
+dJdt_task = diff(J_task_temp,t); % Compute the time derivative.
+% Replace the symbolic functions with symbolic variables.
 for iter = 1:n_q
     dJdt_task = subs(dJdt_task, ...
         {eval(['diff(q',num2str(iter),'(t),t,t)']), ...
@@ -466,7 +462,7 @@ ddx_act = dJdt_task*dq_ + J_task*ddq_opt;
 % Q matrix defining weights in objective function
 Q_opt = eye(numel(ddx_act));
 
-% Objective function
+% Cost function
 J_opt = (ddx_des-ddx_act).'*Q_opt*(ddx_des-ddx_act);
 
 % Hessian of objective function
