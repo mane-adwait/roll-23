@@ -136,18 +136,17 @@ u_out = [];
 
 for t_start = 0:Ts:(sim_time-Ts)
     
-    disp(['t_start = ' num2str(t_start)])
-    
     % Extract generalized coordinates (q) from state vector
     q = y0(1:2:end);
     % Extract dq from state vector
     dq = y0(2:2:end);
     
     % Compute torques (once per Ts)
-    tau = GetTorqueOSC(xdes(t_start),dxdes(t_start),q,dq)
-    % tau(3) = -1000;
-    % tau = zeros(2,1);
-    
+    tau = GetTorqueOSC(xdes(t_start),dxdes(t_start),q,dq);
+
+    disp(['t_start = ' num2str(t_start) '    tau = ' ...
+        num2str(tau(1)) '  ' num2str(tau(2)) '  ' num2str(tau(3)) ])
+
     % Define inline dynamics function for passing constant torque
     dyn = @(t,y) dynVehicleControl(t,y,tau);
     % Run numerical simulation (nonlinear integrator)

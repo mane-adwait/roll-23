@@ -43,14 +43,17 @@ ub(1:nU) = tau_limit;
 % Display options: 'off', 'final', 'iter', 'iter-detailed',
 % 'final-detailed'
 % https://www.mathworks.com/help/optim/ug/quadprog.html#btm48d1
-options =  optimoptions(@quadprog,'Display','iter');
-% Run QP solver
-% Design vector z is ordered [u1 u2 ddq1 ddq2].'
+options =  optimoptions(@quadprog,'Display','off');
 
-z_0 = ones(nDesignVars,1);
-[z, ~] = quadprog(H,f,[],[],Aeq,beq,lb,ub,z_0,options);
-% [z, ~] = quadprog(H,f,[],[],Aeq,beq,lb,ub,[],options);
-disp(z)
+% Run QP solver
+% Design vector z is ordered [u1 u2 ... ddq1 ddq2 ... lam1 lam2...].'
+
+[z, ~] = quadprog(H,f,[],[],Aeq,beq,lb,ub,[],options);
+
+% For debugging:
+% z_0 = ones(nDesignVars,1);
+% [z, ~] = quadprog(H,f,[],[],Aeq,beq,lb,ub,z_0,options);
+% disp(z)
 
 % Pull optimal torques out of the design vector
 % z_temp = z; % copies design vector

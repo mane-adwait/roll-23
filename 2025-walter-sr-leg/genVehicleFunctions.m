@@ -105,7 +105,7 @@ ij = ij+1;
 r_j(1:2,ij) = r_j(:,ij-1) + params.L3a*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))]; % Euclidean vector
 % t_j(1,ij) = t_j(1,ij-1)+q6; % Planar rotation
 t_j(1,ij) = t_j(1,ij-1)+q5; % Planar rotation
-disp(['Front wheel A:' newline 'ij = ' num2str(ij) newline 't_j(1,ij) = ' char(t_j(1,ij)) newline] )
+% disp(['Front wheel A:' newline 'ij = ' num2str(ij) newline 't_j(1,ij) = ' char(t_j(1,ij)) newline] )
 
 % Front wheel joint B (5)
 ij = ij+1;
@@ -421,38 +421,6 @@ A = jacobian(d_con_funcs,dq_);
 f_con_term = A.'*lam_;
 
 % size(B) = n_q X n_u
-% B = [...
-%      0, 0, 0, 0, 0, 0; % x
-%      0, 0, 0, 0, 0, 0; % z
-%     -1, 0, 0,-1, 0, 0; % t1
-%      1,-1, 0, 0, 0, 0; % t2
-%      0, 1,-1, 0, 0, 0; % t3
-%      0, 0, 1, 0, 0, 0; % t4
-%      0, 0, 0, 0, 0, 0; % t5
-%      0, 0, 0, 1,-1, 0; % t6
-%      0, 0, 0, 0, 1,-1; % t7
-%      0, 0, 0, 0, 0, 0; % t8
-%      0, 0, 0, 0, 0, 1; % t9
-%      0, 0, 0, 0, 0, 0; % phi
-%      0, 0, 0, 0, 0, 0; % p
-%      0, 0, 0, 0, 0, 0; % phi_bwB
-%      0, 0, 0, 0, 0, 0 ... % p_bwB
-%      ];
-
-
-% B = [...
-%      0, 0, 0, 0, 0, 0; % x
-%      0, 0, 0, 0, 0, 0; % z
-%     -1, 0, 0,-1, 0, 0; % t1
-%      1,-1, 0, 0, 0, 0; % t2
-%      0, 1,-1, 0, 0, 0; % t3
-%      0, 0, 1, 0, 0, 0; % t4
-%      0, 0, 0, 0, 0, 0; % t5
-%      0, 0, 0, 1,-1, 0; % t6
-%      0, 0, 0, 0, 0, 0; % phi
-%      0, 0, 0, 0, 0, 0 ... % p
-%      ];
-
 B = [...
      0, 0, 0; % x
      0, 0, 0; % z
@@ -467,13 +435,10 @@ B = [...
 
 Wnc = B*u_;
 
-% Wnc = zeros(n_q,1);
-
 % Add actuation
 f = C_term+Wnc; % Not sure where this is being used.
 
-% E_L_aug = E_L_eq - f_con_term - Wnc;
-E_L_aug = E_L_eq - f_con_term - Wnc; % Passive simulation.
+E_L_aug = E_L_eq - f_con_term - Wnc;
 ddq_aug = [ddq_; lam_];
 
 M_aug = jacobian([E_L_aug; d2_con_funcs],ddq_aug);
