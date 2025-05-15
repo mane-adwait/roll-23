@@ -284,11 +284,11 @@ dh_dt(1) = dh1_dt ;
 
 d2h_dt2 = diff(dh_dt, t) ; d2h_dt2 = simplify(d2h_dt2) ;
 
-con_funcs = dh_dt ;
+d_con_funcs = dh_dt ;
 d2_con_funcs = d2h_dt2 ;
 
 
-Nlam = numel(con_funcs);
+Nlam = numel(d_con_funcs);
 syms('lam_',[Nlam 1])
 
 %% Build Inertias
@@ -363,7 +363,7 @@ for iter = 1:n_q
         eval(['diff(q',num2str(iter),'(t),t)']), ...
         eval(['q',num2str(iter),'(t)'])}, ...
         {ddq_(iter), dq_(iter), q_(iter)});
-    con_funcs = subs(con_funcs, ...
+    d_con_funcs = subs(d_con_funcs, ...
         {eval(['diff(q',num2str(iter),'(t),t,t)']), ...
         eval(['diff(q',num2str(iter),'(t),t)']), ...
         eval(['q',num2str(iter),'(t)'])}, ...
@@ -416,7 +416,7 @@ C_term = -subs(E_L_eq,ddq_,zeros(size(ddq_)));
 M = jacobian(E_L_eq,ddq_);
 
 
-A = jacobian(con_funcs,dq_);
+A = jacobian(d_con_funcs,dq_);
 
 f_con_term = A.'*lam_;
 
