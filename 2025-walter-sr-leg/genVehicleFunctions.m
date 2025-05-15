@@ -1,7 +1,8 @@
 % genFunctions.m
-clc
-clear
-close all
+
+clc; clear; close all;
+% Suppress growing variable warnings in this file:
+%#ok<*SAGROW>
 
 mkdir('auto')
 addpath(genpath( 'auto' ) );
@@ -43,7 +44,7 @@ params = getVehicleParams();
 
 DOF_unc = 6; % Degrees of freedom in the unconstrained system.
 n_q = 6+2; % Number of coordinates.
-Nact = 3; % Number of actuators.
+N_act = 3; % Number of actuators.
 
 slope_angle = 0; %-pi/4;
 r_slope = [cos(slope_angle); sin(slope_angle)];
@@ -65,13 +66,12 @@ end
 % Create a symbolic array q = [q1(t); q2(t); ... ].
 for iter = 1:n_q
     q(iter,1) = eval(['q' num2str(iter)]);
-    q_char{iter,1} = eval(['q' num2str(iter)]);
 end
 
 syms('q_',[n_q 1])
 syms('dq_',[n_q 1])
 syms('ddq_',[n_q 1])
-syms('u_',[Nact 1])
+syms('u_',[N_act 1])
 
 
 %% Build Kinematics
@@ -113,25 +113,6 @@ r_j(1:2,ij) = r_j(:,ij-2) - params.L3b*[cos(t_j(1,ij-2));sin(t_j(1,ij-2))]; % Eu
 % t_j(1,ij) = t_j(1,ij-2)+q7; % Planar rotation
 t_j(1,ij) = t_j(1,ij-1)+q6; % Planar rotation
 
-% % Back leg joint (6)
-% ij = ij+1;
-% r_j(1:2,ij) = r_j(:,1) - params.L1b*[cos(t_j(1,1));sin(t_j(1,1))]; % Euclidean vector
-% t_j(1,ij) = t_j(1,1)+q8; % Planar rotation
-% 
-% % Back knee joint (7)
-% ij = ij+1;
-% r_j(1:2,ij) = r_j(:,ij-1) + params.L6*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))]; % Euclidean vector
-% t_j(1,ij) = t_j(1,ij-1)+q9; % Planar rotation
-% 
-% % Back wheel joint A (8)
-% ij = ij+1;
-% r_j(1:2,ij) = r_j(:,ij-1) + params.L7a*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))]; % Euclidean vector
-% t_j(1,ij) = t_j(1,ij-1)+q10; % Planar rotation
-% 
-% % Back wheel joint B (9)
-% ij = ij+1;
-% r_j(1:2,ij) = r_j(:,ij-2) - params.L7b*[cos(t_j(1,ij-2));sin(t_j(1,ij-2))]; % Euclidean vector
-% t_j(1,ij) = t_j(1,ij-2)+q11; % Planar rotation
 
 % Center Points
 
@@ -159,22 +140,6 @@ ij = ij+1;
 r_c(1:2,ij) = r_j(:,ij-2) - params.L3b*[cos(t_j(1,ij-2));sin(t_j(1,ij-2))];
 
 
-% % Back thigh center (6)
-% ij = ij+1;
-% r_c(1:2,ij) = r_j(:,6) + params.L6/2*[cos(t_j(1,ij));sin(t_j(1,ij))];
-% 
-% % Back shin center (7)
-% ij = ij+1;
-% r_c(1:2,ij) = r_j(:,ij);
-% 
-% % Back A center (8)
-% ij = ij+1;
-% r_c(1:2,ij) = r_j(:,ij-1) + params.L7a*[cos(t_j(1,ij-1));sin(t_j(1,ij-1))];
-% 
-% % Back B center (9)
-% ij = ij+1;
-% r_c(1:2,ij) = r_j(:,ij-2) - params.L7b*[cos(t_j(1,ij-2));sin(t_j(1,ij-2))];
-
 %% Setup for constraints. Parametric functions for the wheels.
 
 % ------------- fwA
@@ -193,26 +158,8 @@ norm_d_alpha_wheel_dphi = expand(norm_d_alpha_wheel_dphi) ;
 
 T_wheel = simplify( 1/norm_d_alpha_wheel_dphi * d_alpha_wheel_dphi ) ; % Tangent vector.
 % s_wheel = int(norm_d_alpha_wheel_dphi, phi, 0, phi)  % Arc-length.
-% d_s_wheel_dt = fulldiff(s_wheel, q_char) 
+% % Time-derivative of arc-length using the chain rule:
 d_s_wheel_dt = simplify( norm_d_alpha_wheel_dphi * dphi ) ;
-
-% % ------------- bwB of Wheel-leg UGV.
-% phi_bwB = q(14) ;   
-% dphi_bwB = diff(q(14)) ;    
-% theta_bwB = t_j(1,9) ;
-% 
-% alpha_bwB = params.wheel_radius* [cos(phi_bwB); sin(phi_bwB)] ; % Parametric function of a circle.
-% d_alpha_dphi_bwB = diff(alpha_bwB, phi_bwB) ;
-% 
-% % Calculate the norm explicitly because the 'norm' function introduces abs(p), which can be problematic.
-% norm_d_alpha_dphi_bwB = sqrt(d_alpha_dphi_bwB(1,1)^2 + d_alpha_dphi_bwB(2,1)^2) ;
-% norm_d_alpha_dphi_bwB = expand(norm_d_alpha_dphi_bwB) ;
-% 
-% T_bwB = simplify( 1/norm_d_alpha_dphi_bwB * d_alpha_dphi_bwB ) ; % Tangent vector.
-% % s_wheel = int(norm_d_alpha_wheel_dphi, phi, 0, phi)  
-% % d_s_wheel_dt = fulldiff(s_wheel, q_char) 
-% % Time-derivative of arc-length using the chain rule.
-% d_s_bwB_dt = simplify( norm_d_alpha_dphi_bwB * dphi_bwB ) ;
 
 % % ------------- fwB of Walter Sr. leg.
 % phi_bwB = q(9) ;   
@@ -228,7 +175,6 @@ d_s_wheel_dt = simplify( norm_d_alpha_wheel_dphi * dphi ) ;
 % 
 % T_bwB = simplify( 1/norm_d_alpha_dphi_bwB * d_alpha_dphi_bwB ) ; % Tangent vector.
 % % s_wheel = int(norm_d_alpha_wheel_dphi, phi, 0, phi)  
-% % d_s_wheel_dt = fulldiff(s_wheel, q_char) 
 % % Time-derivative of arc-length using the chain rule.
 % d_s_bwB_dt = simplify( norm_d_alpha_dphi_bwB * dphi_bwB ) ;
 
@@ -339,7 +285,7 @@ dh_dt(1) = dh1_dt ;
 d2h_dt2 = diff(dh_dt, t) ; d2h_dt2 = simplify(d2h_dt2) ;
 
 con_funcs = dh_dt ;
-d_con_funcs = d2h_dt2 ;
+d2_con_funcs = d2h_dt2 ;
 
 
 Nlam = numel(con_funcs);
@@ -422,7 +368,7 @@ for iter = 1:n_q
         eval(['diff(q',num2str(iter),'(t),t)']), ...
         eval(['q',num2str(iter),'(t)'])}, ...
         {ddq_(iter), dq_(iter), q_(iter)});
-    d_con_funcs = subs(d_con_funcs, ...
+    d2_con_funcs = subs(d2_con_funcs, ...
         {eval(['diff(q',num2str(iter),'(t),t,t)']), ...
         eval(['diff(q',num2str(iter),'(t),t)']), ...
         eval(['q',num2str(iter),'(t)'])}, ...
@@ -518,9 +464,9 @@ f = C_term+Wnc; % Not sure where this is being used.
 E_L_aug = E_L_eq - f_con_term - Wnc; % Passive simulation.
 ddq_aug = [ddq_; lam_];
 
-M_aug = jacobian([E_L_aug; d_con_funcs],ddq_aug);
-% M_aug = [M, A.';  jacobian(d_con_funcs,ddq_), zeros(Nlam)];
-f_aug = -subs([E_L_aug; d_con_funcs],ddq_aug,zeros(size(ddq_aug)));
+M_aug = jacobian([E_L_aug; d2_con_funcs],ddq_aug);
+% M_aug = [M, A.';  jacobian(d2_con_funcs,ddq_), zeros(Nlam)];
+f_aug = -subs([E_L_aug; d2_con_funcs],ddq_aug,zeros(size(ddq_aug)));
 
 
 
@@ -554,7 +500,7 @@ f_opt = subs(gradient(J_opt,z_opt), z_opt, zeros(size(z_opt)));
 % Equality constriants
 % Enforces equations of motion
 % Substitutes design variable ddqs and u
-EQ_CON = subs([E_L_aug; d_con_funcs],[ddq_; u_; lam_],[ddq_opt; u_opt; lam_opt]);
+EQ_CON = subs([E_L_aug; d2_con_funcs],[ddq_; u_; lam_],[ddq_opt; u_opt; lam_opt]);
 
 % Jacobian of equality constraints
 A_eq_con = jacobian(EQ_CON, z_opt);
