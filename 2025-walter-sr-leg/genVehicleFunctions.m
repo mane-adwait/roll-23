@@ -56,7 +56,7 @@ syms t
 % compute E_L_eq.
 % E_L_eq is then updated. Symbolic functions q1(t), q2(t), ... and their 
 % derivatives are substituted with symbolic variables q_1, q_2, ...
-% Not sure if/how the symbolic arrays q, q_, dq_, ddq_ are used.
+% Not sure if/how the symbolic array q is used.
 
 
 % Create symbolic functions q1(t), q2(t), ... 
@@ -330,7 +330,7 @@ dL_ddq_dt = diff(dL_ddq,t);
 E_L_eq = dL_ddq_dt-dL_dq;
 
 
-%% TASKS
+%% TASK SPACE
 
 % Task space coordinates
 
@@ -445,16 +445,16 @@ f_aug = -subs([E_L_aug; d2_con_funcs],ddq_aug,zeros(size(ddq_aug)));
 
 %% QP Matrices
 
-% desired task-space acceleration
-ddx_des = sym('ddx_des',size(x_task));
-
-% optimization design variables
+% Optimization design variables
 u_opt = sym('u_opt',size(u_));
-lam_opt = sym('lam_opt',size(lam_));
 ddq_opt = sym('ddq_opt',size(ddq_));
+lam_opt = sym('lam_opt',size(lam_));
 
 % Construct design vector
 z_opt = [u_opt; ddq_opt; lam_opt]; % Design vector
+
+% desired task-space acceleration
+ddx_des = sym('ddx_des',size(x_task));
 
 % Actual acceleration in task space
 ddx_act = dJdt_task*dq_ + J_task*ddq_opt;
