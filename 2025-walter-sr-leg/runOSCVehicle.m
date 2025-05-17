@@ -102,8 +102,8 @@ dq0 = zeros(8,1);
 % Rearrange into q1; dq1; q2; dq2 ... ordering
 y0 = reshape([q0.';dq0.'],[numel(q0)*2,1]);
 
-sim_time = 5; %7.5; %5; % Simulation run time
-Ts = 0.01; % Sample time (for controller)
+sim_time = 5; %7.5; %5; % Simulation run time.
+Ts = 0.01; % Controller time-step.
 
 % Test OSC.
 height_des = 3 ;
