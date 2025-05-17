@@ -4,9 +4,6 @@ function [dy] = dynVehicleControl(t,y,tau)
 q = y(1:2:end);
 dq = y(2:2:end);
 
-% Initialize derivative vector
-dy = zeros(size(y));
-dy(1:2:end) = dq;
 
 % tau = GetTorqueOSC([8;1;0.0],[0;0;0],q,dq);
 
@@ -30,6 +27,7 @@ ddq = ddq_aug(1:numel(y)/2);
 % bu = 1e8; % upper bound
 % ddq=min(max(ddq,bl),bu);
 
-dy(2:2:end) = ddq;
 
-% ddq(end-1:end)
+dy = zeros(size(y)); % Initialize derivative vector
+dy(1:2:end) = dq;
+dy(2:2:end) = ddq;
