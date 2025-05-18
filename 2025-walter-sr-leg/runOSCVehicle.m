@@ -106,7 +106,7 @@ sim_time = 5; %7.5; %5; % Simulation run time.
 Ts = 0.01; % Controller time-step.
 
 % Test OSC.
-height_des = 3 ;
+height_des = 3.0 ;
 xdes = @(t) [0; height_des]; % constant height
 
 
@@ -179,4 +179,4 @@ y_anim = interp1(t_out,y_out,t_anim);
 
 q_anim = y_anim(:,1:2:end);
 
-save("v7-refactor.mat")
+save("v8-1-data.mat")

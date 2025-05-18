@@ -461,6 +461,8 @@ ddx_act = dJdt_task*dq_ + J_task*ddq_opt;
 
 % Q matrix defining weights in objective function
 Q_opt = eye(numel(ddx_act));
+Q_opt(2,2) = 10; 
+disp(['Q_opt = ']); disp(Q_opt)
 
 % Cost function
 J_opt = (ddx_des-ddx_act).'*Q_opt*(ddx_des-ddx_act);

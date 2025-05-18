@@ -6,9 +6,9 @@ close all
 addpath(genpath( 'Functions' ) );
 addpath(genpath( 'auto' ) );
 
-load("v7-refactor.mat")
+load("v8-1-data.mat")
 
-v = VideoWriter('v7-refactor.mp4','MPEG-4');
+v = VideoWriter('v8-1.mp4','MPEG-4');
 v.Quality = 99;
 v.FrameRate = FPS;
 open(v);
