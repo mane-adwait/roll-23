@@ -9,7 +9,7 @@ addpath(genpath( 'auto' ) );
 
 warning('off','MATLAB:nearlySingularMatrix')
 
-tic
+tStartTotal = tic;
 
 % Retrieve parameters from external function
 params = getVehicleParams();
@@ -104,6 +104,10 @@ y0 = reshape([q0.';dq0.'],[numel(q0)*2,1]);
 
 sim_time = 5; %7.5; %5; % Simulation run time.
 Ts = 0.01; % Controller time-step.
+num_steps = sim_time / Ts;
+% Initialize an array to store controller execution times.
+torque_times = zeros(num_steps, 1);
+step_idx = 1;
 
 % Test OSC.
 height_des = 3.0 ;
@@ -142,7 +146,9 @@ for t_start = 0:Ts:(sim_time-Ts)
     dq = y0(2:2:end);
     
     % Compute torques (once per Ts)
+    tStartTorque = tic;
     tau = GetTorqueOSC(xdes(t_start),dxdes(t_start),q,dq);
+    torque_times(step_idx) = toc(tStartTorque);
 
     disp(['t_start = ' num2str(t_start) '    tau = ' ...
         num2str(tau(1)) '  ' num2str(tau(2)) '  ' num2str(tau(3)) ])
@@ -165,10 +171,12 @@ for t_start = 0:Ts:(sim_time-Ts)
     
     % Update initial condition for next sample time, Ts
     y0 = y_sim(end,:).';
+
+    step_idx = step_idx + 1; % Increment step counter.
 end
 
-toc
-
+totalElapsed = toc(tStartTotal);
+fprintf('Total simulation time: %.3f s\n', totalElapsed);
 
 %% Animation setup.
 FPS = 20;
@@ -180,3 +188,18 @@ y_anim = interp1(t_out,y_out,t_anim);
 q_anim = y_anim(:,1:2:end);
 
 save("v8-1-data.mat")
+
+%%
+figure;
+plot((0:Ts:(sim_time-Ts))', torque_times * 1000, 'LineWidth', 1.5);
+xlabel('Simulation time (s)');
+ylabel('GetTorqueOSC Duration (ms)');
+title('Controller Execution Time per Step');
+grid on;
+hold on
+plot((0:Ts:(sim_time-Ts))', Ts*1000*ones(num_steps,1), 'LineWidth', 1.5,'Color','k');
+legend({    '',...
+    'Ts',...
+    },'Location','eastoutside',...
+    'Interpreter','latex');
+cAx = gca; cAx.FontSize = 16;
