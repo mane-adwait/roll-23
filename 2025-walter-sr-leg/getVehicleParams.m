@@ -30,14 +30,14 @@ params.L3b = 0.159/2;  % length to back joint
 params.I3 = (1/12)*params.m3*(params.L3a+params.L3b)^2; % inertia
 
 % Front Wheel A (4)
-params.m4 = 1; % Mass of body 1
+params.m4 = 0.4; % Mass of body 1
 params.L4 = params.wheel_radius;  % Length to front wheel
-params.I4 = 1/3; % inertia
+params.I4 = (1/2)*params.m4*params.L4^2; % inertia
 
 % Front Wheel B (5)
-params.m5 = 1; % Mass of body 1
+params.m5 = 0.4; % Mass of body 1
 params.L5 = params.wheel_radius;  % Length to front wheel
-params.I5 = 1/3; % inertia
+params.I5 = (1/2)*params.m5*params.L5^2; % inertia
 
 % ---------- Arbitrary values ----------
 

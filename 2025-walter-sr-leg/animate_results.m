@@ -6,9 +6,9 @@ close all
 addpath(genpath( 'Functions' ) );
 addpath(genpath( 'auto' ) );
 
-load("v8-1-data.mat")
+load("v9-data.mat")
 
-v = VideoWriter('v8-1.mp4','MPEG-4');
+v = VideoWriter('v9.mp4','MPEG-4');
 v.Quality = 99;
 v.FrameRate = FPS;
 open(v);
@@ -24,7 +24,7 @@ axis equal
 grid on
 % [xmin xmax ymin ymax]
 % axis([-6 15 -1 4])
-axis([-6 15 -5 5])
+axis([-0.5 0.5 -0.1 0.4])
 
 NUM_WHEEL_POINTS = 200;
 wheel_points = [cos(linspace(0,2*pi,NUM_WHEEL_POINTS));sin(linspace(0,2*pi,NUM_WHEEL_POINTS))];
@@ -43,7 +43,7 @@ hold on
 p_plotVal = -10:0.1:20 ;
 
 % alpha_terr = [p; -0.4142] ; % Horizontal line.
-terr_plotVal = ones(numel(p_plotVal),1) * -0.75;
+terr_plotVal = ones(numel(p_plotVal),1) * 0;
 plot_terr = plot(p_plotVal, terr_plotVal, 'k-','linewidth',1) ;
 
 % % plot_terr = plot(p_plot, sin(p_plot), 'k-') ;

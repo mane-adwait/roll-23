@@ -102,7 +102,7 @@ dq0 = zeros(8,1);
 % Rearrange into q1; dq1; q2; dq2 ... ordering
 y0 = reshape([q0.';dq0.'],[numel(q0)*2,1]);
 
-sim_time = 5; %7.5; %5; % Simulation run time.
+sim_time = 2; %7.5; %5; % Simulation run time.
 Ts = 0.01; % Controller time-step.
 num_steps = sim_time / Ts;
 % Initialize an array to store controller execution times.
@@ -110,7 +110,7 @@ torque_times = zeros(num_steps, 1);
 step_idx = 1;
 
 % Test OSC.
-height_des = 3.0 ;
+height_des = 0.22 ;
 xdes = @(t) [0; height_des]; % constant height
 
 
@@ -187,7 +187,7 @@ y_anim = interp1(t_out,y_out,t_anim);
 
 q_anim = y_anim(:,1:2:end);
 
-save("v8-1-data.mat")
+save("v9-data.mat")
 
 %%
 figure;
@@ -203,3 +203,8 @@ legend({    '',...
     },'Location','eastoutside',...
     'Interpreter','latex');
 cAx = gca; cAx.FontSize = 16;
+% Check if current upper ylim is <= Ts + 0.1 (in *milliseconds*)
+if cAx.YLim(2) <= Ts*1000+1
+    cAx.YLim(2) = Ts*1000+1;
+end
+    
