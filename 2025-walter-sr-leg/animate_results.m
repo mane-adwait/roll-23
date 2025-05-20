@@ -13,6 +13,9 @@ v.Quality = 99;
 v.FrameRate = FPS;
 open(v);
 
+height_des = 0.22 ;
+xdes = [0; height_des];
+
 figure(2)
 
 % Set the figure position using the syntax [left bottom width height].
@@ -24,7 +27,20 @@ axis equal
 grid on
 % [xmin xmax ymin ymax]
 % axis([-6 15 -1 4])
-axis([-0.5 0.5 -0.1 0.4])
+axis([-0.5 0.5 -0.1 0.4]) % In meters.
+
+% Convert axes tick labels to centimeters. 
+% Note that we are only changing the labels. Purely cosmetic change.
+% Everything is still plotted in meters.
+xticks_cm = get(gca, 'XTick') * 100;
+yticks_cm = get(gca, 'YTick') * 100;
+set(gca, 'XTickLabel', xticks_cm);
+set(gca, 'YTickLabel', yticks_cm);
+
+xlabel('X (Centimeters)');
+ylabel('Y (Centimeters)');
+
+
 
 NUM_WHEEL_POINTS = 200;
 wheel_points = [cos(linspace(0,2*pi,NUM_WHEEL_POINTS));sin(linspace(0,2*pi,NUM_WHEEL_POINTS))];
@@ -199,6 +215,8 @@ for iter = 1:numel(t_anim)
 
     plot(plot_coords(1,:), plot_coords(2,:), 'k-', 'linewidth', 4)
 
+    % Plot xdes.
+    plot(xdes(1), xdes(2), 'bx', 'MarkerSize', 10, 'LineWidth', 2);
 
     axis on
     hold off
