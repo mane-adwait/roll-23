@@ -15,8 +15,10 @@ kd = 10*eye(nX); % derivative gains
 
 
 
-% Torque limits
-tau_limit = 50;
+% Torque limits. 
+% mj5208 brushless motor peak torque = 1.7 Nm.
+% Transmission increases the torque.
+tau_limit = 5;
 
 x = xTask_func(q); % position in task space
 J = JTask_func(q); % Jacobian in task space

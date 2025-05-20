@@ -15,7 +15,7 @@ params.terrain_radius = 5 ;
 
 % Main Body (1)
 params.m1 = 2.5; % Mass of body 1
-params.L1a = 0.02;  % Length to front joint
+params.L1a = 0.039;  % Length to front joint
 params.I1 = (1/12)*params.m1*params.L1a^2; % inertia
 
 % Front Thigh (2)
