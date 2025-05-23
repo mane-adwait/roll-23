@@ -102,7 +102,7 @@ dq0 = zeros(8,1);
 % Rearrange into q1; dq1; q2; dq2 ... ordering
 y0 = reshape([q0.';dq0.'],[numel(q0)*2,1]);
 
-sim_time = 2; %7.5; %5; % Simulation run time.
+sim_time = 3; %7.5; %5; % Simulation run time.
 Ts = 0.01; % Controller time-step.
 num_steps = sim_time / Ts;
 % Initialize an array to store controller execution times.
@@ -145,13 +145,17 @@ for t_start = 0:Ts:(sim_time-Ts)
     % Extract dq from state vector
     dq = y0(2:2:end);
     
-    % Compute torques (once per Ts)
-    tStartTorque = tic;
-    tau = GetTorqueOSC(xdes(t_start),dxdes(t_start),q,dq);
-    torque_times(step_idx) = toc(tStartTorque);
-
-    disp(['t_start = ' num2str(t_start) '    tau = ' ...
-        num2str(tau(1)) '  ' num2str(tau(2)) '  ' num2str(tau(3)) ])
+    % % Compute torques (once per Ts)
+    % tStartTorque = tic;
+    % tau = GetTorqueOSC(xdes(t_start),dxdes(t_start),q,dq);
+    % torque_times(step_idx) = toc(tStartTorque);
+    % 
+    % disp(['t_start = ' num2str(t_start) '    tau = ' ...
+    %     num2str(tau(1)) '  ' num2str(tau(2)) '  ' num2str(tau(3)) ])
+    
+    % Passive simulation.
+    tau = zeros([3 1]);
+    disp('Passive. tau = 0.');
 
     % Define inline dynamics function for passing constant torque
     dyn = @(t,y) dynVehicleControl(t,y,tau);
@@ -187,7 +191,7 @@ y_anim = interp1(t_out,y_out,t_anim);
 
 q_anim = y_anim(:,1:2:end);
 
-save("v9-data.mat")
+save("v11-sin-passive-data.mat")
 
 %%
 figure;

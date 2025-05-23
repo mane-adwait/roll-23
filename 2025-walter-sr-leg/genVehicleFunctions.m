@@ -188,9 +188,9 @@ d_s_wheel_dt = simplify( norm_d_alpha_wheel_dphi * dphi ) ;
 p = q(8) ;     dp = diff(q(8)) ;
 
 % alpha_terr = [p; -0.4142] ; % Parametric function of a line.
-alpha_terr = [p; 0] ; % Parametric function of a line.
+% alpha_terr = [p; 0] ; % Parametric function of a line.
 % alpha_terr = params.terrain_radius * [cos(p); sin(p)] ; % Parametric function of a circle.
-% alpha_terr = [p; sin(p)] ; % Parametric function of a sinusoid.
+alpha_terr = [p; (1/20)*sin(10*p)] ; % Parametric function of a sinusoid.
 % alpha_terr = terrain_hill(p) ;
 d_alpha_terr_dp = diff(alpha_terr, p) ;
 

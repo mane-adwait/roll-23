@@ -6,9 +6,9 @@ close all
 addpath(genpath( 'Functions' ) );
 addpath(genpath( 'auto' ) );
 
-load("v9-data.mat")
+load("v11-sin-passive-data.mat")
 
-v = VideoWriter('v9.mp4','MPEG-4');
+v = VideoWriter('v11-sin-passive.mp4','MPEG-4');
 v.Quality = 99;
 v.FrameRate = FPS;
 open(v);
@@ -56,10 +56,14 @@ hold on
 % p_plot = -pi/8:0.1:2*pi ;
 % plot_terr = plot(params.terrain_radius * cos(p_plot), params.terrain_radius * sin(p_plot), 'k-') ;
 
-p_plotVal = -10:0.1:20 ;
+p_plotVal = -10:0.01:20 ;
 
-% alpha_terr = [p; -0.4142] ; % Horizontal line.
-terr_plotVal = ones(numel(p_plotVal),1) * 0;
+% % Horizontal line:
+% terr_plotVal = ones(numel(p_plotVal),1) * 0;
+% plot_terr = plot(p_plotVal, terr_plotVal, 'k-','linewidth',1) ;
+
+% Sinusoidal terrain:
+terr_plotVal = (1/20)*sin(10*p_plotVal);
 plot_terr = plot(p_plotVal, terr_plotVal, 'k-','linewidth',1) ;
 
 % % plot_terr = plot(p_plot, sin(p_plot), 'k-') ;
