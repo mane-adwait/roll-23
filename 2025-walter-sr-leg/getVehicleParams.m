@@ -16,12 +16,17 @@ params.terrain_radius = 5 ;
 % Main Body (1)
 params.m1 = 2.5; % Mass of body 1
 params.L1a = 0.039;  % Length to front joint
-params.I1 = (1/12)*params.m1*params.L1a^2; % inertia
+params.I1 = (1/12)*params.m1*(params.L1a/2)^2; % inertia
 
 % Front Thigh (2)
 params.m2 = 0.4; % Mass of body 2
 params.L2 = 0.102;  % Length to front wheel
-params.I2 = (1/12)*params.m2*params.L2^2; % inertia
+params.I2_1 = (1/12)*params.m2*params.L2^2; % Body inertia.
+params.thigh_rotor_inertia = 2e-4;
+params.thigh_gear_ratio = 6; 
+params.I2_2 = params.thigh_rotor_inertia * params.thigh_gear_ratio^2;
+% params.I2 = params.I2_1 + params.I2_2; % Combined inertia.
+params.I2 = params.I2_1; % Body inertia only.
 
 % Front Shin (3)
 params.m3 = 1.3; % Mass of body 1
