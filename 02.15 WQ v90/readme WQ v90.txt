@@ -19,9 +19,9 @@ Specify the desired filename.
 E.g.: filename = 'v90' saves the output as v90.mat.
 Run this script to simulate the system and save the output.
 
-animate_v*.m. 
+plot_*.m, animate_v*.m. 
 Select the data file to read e.g. load('v90.mat').
-Select the camera position.
+Select the camera position for the animation.
 ------------------------------------------------------------------------
 
 Update the terrain function in Functions/terrain.m.

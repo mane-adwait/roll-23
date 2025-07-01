@@ -91,8 +91,8 @@ for k = 1:numel(t_vec)
 end
 
 % Create and save a video file.
-% Use 'MPEG-4' video profile if supported.
-videoObj = VideoWriter(filename, 'Motion JPEG AVI');
+% Use 'MPEG-4' video profile if supported. Alternative: 'Motion JPEG AVI'
+videoObj = VideoWriter(filename, 'MPEG-4');
 videoObj.Quality = 10;
 FPS = 10; videoObj.FrameRate = FPS;
 open(videoObj);

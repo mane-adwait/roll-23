@@ -6,8 +6,8 @@ clear all; close all;
 
 addpath(genpath( 'auto' ) );
 addpath(genpath( 'Functions' ) );
-load('Results/v0/v0.mat')
-% load('v122.mat')
+% load('Results/v0/v0.mat')
+load('v90.mat')
 % load('v124.mat')
 
 nq = numel(q_start);
