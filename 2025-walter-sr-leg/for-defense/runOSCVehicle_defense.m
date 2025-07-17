@@ -19,10 +19,10 @@ params = getVehicleParams();
 % 2025 May:
 t4_0 = 0; % Assume for all configurations.
 % User-defined: p_0, q4_0, q5_0, q6_0.
-p_0 = 0; q4_0 = pi/2; q5_0 = pi/4; q6_0 = 0; % Crouched configuration.
+% p_0 = 0; q4_0 = pi/2; q5_0 = pi/4; q6_0 = 0; % Crouched configuration.
 % p_0 = 0; q4_0 = pi/2; q5_0 = pi/16; q6_0 = 0; % Config-A.
 % p_0 = 0; q4_0 = -pi/2; q5_0 = 3*pi/4; q6_0 = 0; % Forward knee configuration.
-% p_0 = 0; q4_0 = pi/2; q5_0 = 0; q6_0 = 0; % Inverted T.
+p_0 = 0; q4_0 = pi/2; q5_0 = 0; q6_0 = 0; % Inverted T.
 
 
 % Derived: q1_0, q2_0, q3_0, phi_0.
@@ -192,7 +192,7 @@ y_anim = interp1(t_out,y_out,t_anim);
 
 q_anim = y_anim(:,1:2:end);
 
-save("v11-crouched.mat")
+save("v11-inv-T.mat")
 
 %%
 figure;
