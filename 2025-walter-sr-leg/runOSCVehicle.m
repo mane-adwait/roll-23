@@ -191,7 +191,7 @@ y_anim = interp1(t_out,y_out,t_anim);
 
 q_anim = y_anim(:,1:2:end);
 
-save("v11-sin-passive-slow-data.mat")
+save("v11-test.mat")
 
 %%
 figure;

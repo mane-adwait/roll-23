@@ -6,9 +6,11 @@ close all
 addpath(genpath( 'Functions' ) );
 addpath(genpath( 'auto' ) );
 
-load("v11-sin-passive-slow-data.mat")
+% load("v11-sin-passive-slow-data.mat")
+load("v11-test.mat")
 
-v = VideoWriter('v11-sin-passive-slow.mp4','MPEG-4');
+% v = VideoWriter('v11-sin-passive-slow.mp4','MPEG-4');
+v = VideoWriter('v11-test.mp4','MPEG-4');
 v.Quality = 99;
 v.FrameRate = FPS;
 open(v);
