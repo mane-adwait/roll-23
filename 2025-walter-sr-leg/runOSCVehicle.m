@@ -19,7 +19,7 @@ params = getVehicleParams();
 % 2025 May:
 t4_0 = 0; % Assume for all configurations.
 % User-defined: p_0, q4_0, q5_0, q6_0.
-p_0 = 0; q4_0 = pi/2; q5_0 = pi/4; q6_0 = 0; % Crouched configuration.
+p_0 = 0.2; q4_0 = pi/2; q5_0 = pi/4; q6_0 = 0; % Crouched configuration.
 % p_0 = 0; q4_0 = pi/2; q5_0 = pi/16; q6_0 = 0; % Config-A.
 % p_0 = 0; q4_0 = -pi/2; q5_0 = 3*pi/4; q6_0 = 0; % Forward knee configuration.
 
@@ -35,9 +35,12 @@ alpha_terr_0 = alpha_terr_func(p_0);
 % In constrast, the usual unit normal points towards the concave side.
 N_ute_0 = RM_CCW(pi/2) * T_terr_func(p_0) ;
 p2fwA_0 = params.wheel_radius * N_ute_0 ; % Scaled by the wheel radius.
+% base_0 = alpha_terr_0 + p2fwA_0 ...
+%     - params.L3a*[cos(pi-(q3_0+q4_0)); sin(pi-(q3_0+q4_0))] ...
+%     - params.L2*[cos(pi-q3_0); sin(pi-q3_0)] + [0; params.L1a] ;
 base_0 = alpha_terr_0 + p2fwA_0 ...
-    - params.L3a*[cos(pi-(q3_0+q4_0)); sin(pi-(q3_0+q4_0))] ...
-    - params.L2*[cos(pi-q3_0); sin(pi-q3_0)] + [0; params.L1a] ;
+    + params.L3a*[cos(pi-(q3_0+q4_0)); sin(pi-(q3_0+q4_0))] ...
+    + params.L2*[cos(pi-q3_0); sin(pi-q3_0)] + [0; params.L1a] ;
 q1_0 = base_0(1); q2_0 = base_0(2);
 
 % Derive phi_0:
@@ -191,7 +194,7 @@ y_anim = interp1(t_out,y_out,t_anim);
 
 q_anim = y_anim(:,1:2:end);
 
-save("v11-test.mat")
+save("v11b-test.mat")
 
 %%
 figure;
